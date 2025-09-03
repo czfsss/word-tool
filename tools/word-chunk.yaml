@@ -1,0 +1,40 @@
+identity:
+  name: "word-chunk"
+  author: "czfsss"
+  label:
+    en_US: "word-chunk"
+    zh_Hans: "word-chunk"
+    pt_BR: "word-chunk"
+description:
+  human:
+    en_US: "用于对word分段"
+    zh_Hans: "用于对word分段"
+    pt_BR: "用于对word分段"
+  llm: "用于对word分段"
+parameters:
+  - name: word_content
+    type: file
+    required: true
+    label:
+      en_US: File
+      zh_Hans: word文件
+    human_description:
+      en_US: "The word file to be chunked"
+      zh_Hans: "想要进行切分的word文件"
+    llm_description: "用于对word分段"
+    form: llm
+  - name: chunk_num
+    type: number
+    required: false
+    default: 30
+    label:
+      en_US: Number of Chunks (Maximum 30, Optional)
+      zh_Hans: 分段数量(最多30个,非必填)
+    human_description:
+      en_US: "The number of chunks (Maximum 30 due to the iteration node supporting a maximum of 30 iteration objects)"
+      zh_Hans: "分段的数量(由于迭代节点最多只能有30个迭代对象，所以最大的分段数是30)"
+    llm_description: "用于对word分段"
+    form: llm
+extra:
+  python:
+    source: tools/word-chunk.py

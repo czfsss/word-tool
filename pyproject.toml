@@ -1,0 +1,10 @@
+[project]
+name = "word-chunk"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "dify-plugin>=0.2.0,<0.3.0",
+    "python-docx>=1.2.0",
+]

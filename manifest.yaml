@@ -1,0 +1,50 @@
+version: 0.0.1
+type: plugin
+author: czfsss
+name: word-chunk
+label:
+  en_US: word-chunk
+  ja_JP: word-chunk
+  zh_Hans: word-chunk
+  pt_BR: word-chunk
+description:
+  en_US: 用于对word分段
+  ja_JP: 用于对word分段
+  zh_Hans: 用于对word分段
+  pt_BR: 用于对word分段
+icon: icon_new.svg
+icon_dark: icon-dark.svg
+resource:
+  memory: 268435456
+  permission:
+    tool:
+      enabled: true
+    model:
+      enabled: true
+      llm: true
+      text_embedding: false
+      rerank: false
+      tts: false
+      speech2text: false
+      moderation: false
+    app:
+      enabled: true
+    storage:
+      enabled: true
+      size: 1048576
+plugins:
+  tools:
+    - provider/word-chunk.yaml
+meta:
+  version: 0.0.1
+  arch:
+    - amd64
+    - arm64
+  runner:
+    language: python
+    version: "3.12"
+    entrypoint: main
+  minimum_dify_version: 1.7.2
+created_at: 2025-09-02T08:41:20.7669041+08:00
+privacy: PRIVACY.md
+verified: false
