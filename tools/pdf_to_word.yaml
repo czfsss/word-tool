@@ -1,0 +1,29 @@
+identity:
+  name: "pdf_to_word"
+  author: "czfsss"
+  label:
+    en_US: "pdf_to_word"
+    zh_Hans: "pdf_to_word"
+    pt_BR: "pdf_to_word"
+description:
+  human:
+    en_US: "用于将pdf转换为word"
+    zh_Hans: "用于将pdf转换为word"
+    pt_BR: "用于将pdf转换为word"
+  llm: "用于将pdf转换为word"
+parameters:
+  - name: pdf_content
+    type: file
+    required: true
+    label:
+      en_US: File
+      zh_Hans: pdf文件
+    human_description:
+      en_US: "PDF file to be converted"
+      zh_Hans: "转换的pdf文件"
+    llm_description: "转换的pdf文件"
+    form: llm
+
+extra:
+  python:
+    source: tools/pdf_to_word.py

@@ -1,2 +1,3 @@
 dify_plugin>=0.2.0,<0.3.0
 python-docx>=0.8.11
+pdf2docx>=0.5.8
