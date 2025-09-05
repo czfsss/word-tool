@@ -7,10 +7,10 @@ identity:
     pt_BR: "pdf_to_word"
 description:
   human:
-    en_US: "用于将pdf转换为word"
-    zh_Hans: "用于将pdf转换为word"
-    pt_BR: "用于将pdf转换为word"
-  llm: "用于将pdf转换为word"
+    en_US: "Used to convert PDF to Word documents. If the PDF document is large, the conversion may take a long time. Please be patient."
+    zh_Hans: "用于将pdf转换为word文档，如果pdf文档较大，转换时间会很长,请耐心等待"
+    pt_BR: "Usado para converter arquivos PDF em documentos Word. Se o arquivo PDF for grande, a conversão pode levar muito tempo. Por favor, tenha paciência."
+  llm: "用于将pdf转换为word文档，如果pdf文档较大，转换时间会很长,请耐心等待"
 parameters:
   - name: pdf_content
     type: file
@@ -22,6 +22,21 @@ parameters:
       en_US: "PDF file to be converted"
       zh_Hans: "转换的pdf文件"
     llm_description: "转换的pdf文件"
+    form: llm
+  - name: output_filename
+    type: string
+    required: false
+    label:
+      en_US: Output Filename
+      zh_Hans: 输出文件名
+    human_description:
+      en_US: |
+        Optional custom output file name. If not provided, will use the original PDF filename.
+        The filename suffix (.docx) is not required.
+      zh_Hans: |
+        可选的自定义输出文件名。如果未提供，将使用原始PDF文件名。
+        后缀名(.docx)无需指定。
+    llm_description: "可选的自定义输出文件名，后缀名无需指定"
     form: llm
 
 extra:

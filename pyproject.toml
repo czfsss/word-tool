@@ -6,6 +6,8 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "dify-plugin>=0.2.0,<0.3.0",
+    "htmldocx>=0.0.6",
+    "markdown>=3.0.0",
     "pdf2docx>=0.5.8",
     "python-docx>=1.2.0",
 ]

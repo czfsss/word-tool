@@ -7,10 +7,10 @@ identity:
     pt_BR: "word-chunk"
 description:
   human:
-    en_US: "用于对word分段"
-    zh_Hans: "用于对word分段"
-    pt_BR: "用于对word分段"
-  llm: "用于对word分段"
+    en_US: "Used to chunk Word documents. The Word format needs to be standardized and it works well for contract and legal documents."
+    zh_Hans: "用于对word分段,word格式需要规范标准，针对合同类、法律类文档效果较好"
+    pt_BR: "Usado para dividir documentos Word. O formato do Word precisa ser padronizado e funciona bem para documentos contratuais e legais."
+  llm: "用于对word分段,word格式需要规范标准，针对合同类、法律类文档效果较好"
 parameters:
   - name: word_content
     type: file
@@ -35,6 +35,31 @@ parameters:
       zh_Hans: "分段的数量(由于迭代节点最多只能有30个迭代对象，所以最大的分段数是30)"
     llm_description: "用于对word分段"
     form: llm
+  - name: docx_type
+    type: select
+    required: true
+    default: "general"
+    label:
+      en_US: Docx Type
+      zh_Hans: docx文件类型
+    human_description:
+      en_US: "The type of the docx file to be chunked"
+      zh_Hans: "想要进行切分的docx文件类型"
+    llm_description: "想要进行切分的docx文件类型"
+    form: llm
+    options:
+      - label:
+          en_US: General
+          zh_Hans: 通用
+        value: "general"
+      - label:
+          en_US: Contract
+          zh_Hans: 合同类文件
+        value: "contract"
+      - label:
+          en_US: Policy
+          zh_Hans: 制度类文件
+        value: "policy"
 extra:
   python:
     source: tools/word-chunk.py

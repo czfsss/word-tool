@@ -1,14 +1,14 @@
 identity:
   author: "czfsss"
-  name: "word-chunk"
+  name: "word-tools"
   label:
-    en_US: "word-chunk"
-    zh_Hans: "专为word文档的分段工具"
+    en_US: "word-tools"
+    zh_Hans: "word文档操作工具"
     # pt_BR: "word-chunk"
   description:
     en_US: "A tool for chunking word documents into meaningful text blocks"
-    zh_Hans: "专为word文档的分段工具，可将文档智能切分为有意义的文本块"
-    # pt_BR: "用于对word分段"
+    zh_Hans: "word文档操作工具，可以实现word文档的分段、pdf转word操作以及word文档批注功能"
+    pt_BR: "Ferramenta para segmentar documentos Word em blocos de texto significativos"
   icon: "icon_new.svg"
   tags:
     - productivity
@@ -58,6 +58,8 @@ identity:
 
 tools:
   - tools/word-chunk.yaml
+  - tools/pdf_to_word.yaml
+  - tools/word_comment.yaml
 extra:
   python:
     source: provider/word-chunk.py

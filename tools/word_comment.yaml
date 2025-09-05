@@ -1,0 +1,66 @@
+identity:
+  name: word_comment
+  author: word-tool
+  label:
+    en_US: Word Document Comment
+    zh_Hans: Word文档批注
+description:
+  human:
+    en_US: Add comments to Word document based on JSON key-value pairs, where keys are summary text and values are corresponding comments
+    zh_Hans: 根据JSON键值对向Word文档添加批注，其中键为摘要文本，值为对应的批注内容
+  llm: Add comments to Word document based on provided JSON mapping of summary text to comment content
+parameters:
+  - name: word_content
+    type: file
+    required: true
+    label:
+      en_US: Word Document
+      zh_Hans: Word文档
+    human_description:
+      en_US: Upload the Word document (.docx) that needs comments to be added
+      zh_Hans: 上传需要添加批注的Word文档(.docx格式)
+    form: llm
+  - name: comments_json
+    type: string
+    required: true
+    label:
+      en_US: Comments JSON
+      zh_Hans: 批注JSON
+    human_description:
+      en_US: >
+        JSON object containing key-value pairs where keys are summary text to find in the document 
+        and values are the corresponding comments to add. 
+        Example: {"summary1": "comment1", "summary2": "comment2"}
+      zh_Hans: >
+        包含键值对的JSON对象，其中键为文档中要查找的摘要文本，值为要添加的对应批注。
+        示例：{"摘要1": "批注1", "摘要2": "批注2"}
+    form: llm
+  - name: author
+    type: string
+    required: false
+    label:
+      en_US: Comment Author
+      zh_Hans: 批注者
+    human_description:
+      en_US: Name of the person adding comments (optional, defaults to "批注者")
+      zh_Hans: 添加批注的人员姓名（可选，默认为"批注者"）
+    form: llm
+  - name: output_filename
+    type: string
+    required: false
+    label:
+      en_US: Custom Output Filename
+      zh_Hans: 自定义输出文件名
+    human_description:
+      en_US: >
+        Custom name for the output file (optional). 
+        If not provided, will use original filename with "_commented" suffix.
+        Do not include file extension (.docx will be added automatically).
+      zh_Hans: >
+        自定义输出文件名（可选）。
+        如果不提供，将使用原文件名加"_commented"后缀。
+        无需包含文件扩展名（会自动添加.docx）。
+    form: llm
+extra:
+  python:
+    source: tools/word_comment.py
