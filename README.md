@@ -29,209 +29,115 @@ A comprehensive Word document processing plugin collection designed specifically
 
 ### Algorithm Overview
 
-The Word intelligent chunker employs multi-level document analysis strategies, combining semantic understanding and structural recognition to achieve intelligent document segmentation.
+The Word intelligent chunker employs multi-level document analysis strategies, combining semantic understanding and structural recognition to achieve intelligent document segmentation. This algorithm is specifically optimized for contract, legal, and policy documents, intelligently identifying document structures and performing reasonable chunking to ensure that document segmentation does not cause incomplete semantic recognition by models.
 
 ### Core Algorithm Flow
 
-```mermaid
-graph TD
-    A[Input Word Document] --> B[Paragraph Extraction & Preprocessing]
-    B --> C[Title Recognition & Classification]
-    C --> D[Semantic Chunking Processing]
-    D --> E[Chunk Quantity Control]
-    E --> F[Output Final Chunks]
+1. **Document Element Extraction and Preprocessing**: Extract paragraph and table content in the original document order, preserving document structure information.
+2. **Document Type Recognition**: Identify document types (general, contract, policy) and adopt specific processing strategies for different types.
+3. **Intelligent Title Recognition**: Recognize titles through multiple dimensions including style names, regex pattern matching, format feature analysis, and document type-specific patterns.
+4. **Semantic Chunking Processing**: Adopt different chunking strategies based on different element types such as titles, tables, long paragraphs, short paragraphs, and special paragraphs.
+5. **Chunk Quantity Control**: When the number of chunks exceeds the limit, use a mathematical grouping algorithm for intelligent merging.
 
-    C --> C1[Style Detection]
-    C --> C2[Regex Matching]
-    C --> C3[Format Feature Analysis]
-    C --> C4[Text Feature Recognition]
+### Algorithm Features
 
-    D --> D1[Consecutive Title Processing]
-    D --> D2[Short Paragraph Merging]
-    D --> D3[Long Paragraph Independent Processing]
-
-    E --> E1[Mathematical Grouping Algorithm]
-    E --> E2[Remainder Distribution Strategy]
-```
-
-### 1. Intelligent Title Recognition
-
-#### Multi-dimensional Title Detection Mechanism
-
-**Style Name Detection**
-
-```python
-# Detect Word built-in heading styles
-if "heading" in style_name or "title" in style_name or "标题" in style_name:
-    return True
-```
-
-**Regex Pattern Matching**
-
-```python
-patterns = [
-    r"^\d+\.\d+",           # 1.1, 2.3 format
-    r"^\d+\.[\s\t]*",       # 1. 2. format
-    r"^[IVXLCDM]+\.",       # Roman numerals
-    r"^第[\u4e00-\u9fa5\d]+[章节]", # Chapter 1, Section 2 (Chinese)
-    r"^[一二三四五六七八九十百千万\d]+[\.、]", # Chinese numerals
-    r"^[A-Z][A-Z\s]+\b",    # All caps titles
-]
-```
-
-**Format Feature Analysis**
-
-- **Bold Ratio Detection**: Recognize as title when more than 70% of paragraph text is bold
-- **Font Size Detection**: Dynamically detect font size, recognize as title when exceeding 1.6 times the median
-- **Font Type Detection**: Detect title-specific fonts like bold typefaces
-
-### 2. Intelligent Semantic Chunking
-
-#### Chunking Strategy Details
-
-**Case 1: Title Processing**
-
-```python
-if is_heading:
-    consecutive_title_count += 1
-    if current_chunk and consecutive_title_count == 1:
-        chunks.append("\n".join(current_chunk))  # Save previous chunk
-        current_chunk = [text]  # New chunk starts with title
-    else:
-        current_chunk.append(text)  # Merge consecutive titles
-```
-
-**Case 2: Long Paragraph Processing**
-
-```python
-# Long paragraphs (≥1000 characters) become independent chunks
-if len(text) >= min_length:
-    if current_chunk:  # Save current chunk first
-        chunks.append("\n".join(current_chunk))
-    chunks.append(text)  # Long paragraph becomes independent chunk
-    current_chunk = []
-```
-
-**Case 3: Short Paragraph Merging**
-
-```python
-# Merge short paragraphs into current chunk, wait for subsequent content
-if len(text) < min_length and current_chunk:
-    current_chunk.append(text)
-```
-
-### 3. Quantity Control Algorithm
-
-When the number of chunks exceeds the specified limit, a mathematical grouping algorithm is used for intelligent merging:
-
-#### Algorithm Principle
-
-```python
-total_chunks = len(chunks)  # Total number of chunks
-quotient = total_chunks // max_chunks  # Quotient
-remainder = total_chunks % max_chunks  # Remainder
-```
-
-#### Distribution Strategy
-
-- **Evenly divisible**: Merge every `quotient` chunks into 1
-- **Not evenly divisible**:
-  - First `remainder` groups: `quotient + 1` chunks per group
-  - Remaining groups: `quotient` chunks per group
-
-**Example**: 100 chunks → 30 target chunks
-
-- Quotient = 3, Remainder = 10
-- First 10 groups: 4 chunks per group merged
-- Remaining 20 groups: 3 chunks per group merged
-- Final result: 10×4 + 20×3 = 100 chunks → 30 chunks
-
-### 4. Algorithm Advantages
-
-- **Semantic Preservation**: Chunking based on document structure and semantics, avoiding semantic fragmentation
-- **Format Recognition**: Multi-dimensional title detection, adapting to various document formats
-- **Intelligent Merging**: Smart merging of short paragraphs, avoiding fragmentation
-- **Precise Quantity**: Mathematical grouping algorithm ensures precise chunk quantity control
-- **Chinese Optimization**: Algorithm optimized for Chinese document characteristics
+1. **Document Type Optimization**: Optimized for specific document types like contracts and policies, recognizing document-specific structures.
+2. **Multi-dimensional Title Detection**: Combines style names, regex patterns, format features, and document type-specific patterns for title recognition.
+3. **Intelligent Semantic Chunking**: Adopts different chunking strategies based on document element types to maintain semantic integrity.
+4. **Special Table Processing**: Ensures tables are in the same chunk as related titles, maintaining contextual relevance.
+5. **Precise Quantity Control**: Uses mathematical grouping algorithms to ensure precise chunk quantity control, avoiding over-chunking or under-chunking.
+6. **Hierarchical Structure Recognition**: Capable of recognizing document hierarchical structures and maintaining logical integrity.
 
 ## 📖 Usage Guide
 
-### PDF to Word Converter
+### PDF to Word Conversion Tool
 
-**Basic Usage**
+#### Function Description
 
-```python
-# Input parameters
-{
-    "pdf_content": "<PDF file>",
-    "output_filename": "converted_document"  # Optional
-}
+This tool converts PDF documents to Word format while preserving the original layout and formatting as much as possible. It utilizes the pdf2docx library for efficient conversion.
 
-# Output
-# Returns converted Word document file
-```
+#### Input Parameters
 
-**Features**
+- **file_path** (string, required): Path to the PDF file to be converted
+- **output_path** (string, optional): Path for the output Word file. If not provided, a default path will be generated
 
-- Preserves original layout and formatting
-- Supports table and image conversion
-- Automatically handles Chinese characters
-- Custom output file names
+#### Output Parameters
 
-### Word Intelligent Chunker
+- **status** (string): Operation status ("success" or "error")
+- **message** (string): Detailed message about the operation result
+- **output_file** (string): Path to the generated Word file
 
-**Basic Usage**
+### Word Intelligent Chunking Tool
 
-```python
-# Input parameters
-{
-    "word_content": "<Word file>",
-    "chunk_num": 20  # Optional, default 30, maximum 30
-}
+#### Function Description
 
-# Output JSON format
-{
-    "1": "First chunk content...",
-    "2": "Second chunk content...",
-    "3": "Third chunk content..."
-    // ... up to 30 chunks
-}
-```
+This tool intelligently segments Word documents into meaningful chunks, optimized for contract, legal, and policy documents. It identifies document structure, recognizes titles, and performs semantic chunking to maintain context integrity.
 
-**Chunking Quality Control**
+#### Input Parameters
 
-- Minimum paragraph length: 1000 characters
-- Intelligent title recognition and preservation
-- Semantic integrity guarantee
-- Support for various document structures
+- **file_path** (string, required): Path to the Word file to be chunked
+- **max_chunk** (integer, optional, default: 30): Maximum number of chunks to generate
+- **min_length** (integer, optional, default: 1000): Minimum character length for a chunk to be considered independent
+- **chunk_overlap** (integer, optional, default: 200): Character overlap between adjacent chunks
 
-### Word Document Annotator
+#### Output Parameters
 
-**Basic Usage**
+- **status** (string): Operation status ("success" or "error")
+- **chunks** (array): List of generated chunks
+  - **index** (integer): Chunk index
+  - **content** (string): Text content of the chunk
+  - **word_count** (integer): Word count in the chunk
+- **total_chunks** (integer): Total number of chunks generated
 
-```python
-# Input parameters
-{
-    "word_content": "<Word file>",
-    "comments_json": {
-        "target_text_1": "comment_content_1",
-        "target_text_2": "comment_content_2"
-    },
-    "author": "commenter_name",  # Optional
-    "output_filename": "annotated_document"  # Optional
-}
+### Word Document Commenting Tool
 
-# Output
-# Returns Word document with added comments
-```
+#### Function Description
 
-**Comment Feature Highlights**
+This tool adds native comments to Word documents. It supports adding comments to specific text segments in paragraphs and tables, with intelligent text matching capabilities to locate the target text even when exact matches are not found.
 
-- Uses Word native comment API
-- Precise text positioning and Run splitting
-- Preserves original formatting and styles
-- Supports table content commenting
-- Automatically generates commenter abbreviations
+#### Input Parameters
+
+- **file_path** (string, required): Path to the Word file to be commented
+- **comments** (array or object, required): List of comments to add, supports two formats:
+  - **Format One (Object Array)**:
+    ```json
+    [
+      {
+        "text": "Comment content 1",
+        "target_text": "Target text 1"
+      },
+      {
+        "text": "Comment content 2",
+        "target_text": "Target text 2"
+      }
+    ]
+    ```
+  - **Format Two (Object Array with Multiple Key-Value Pairs)**:
+    ```json
+    [
+      {
+        "Target text 1": "Comment content 1",
+        "Target text 2": "Comment content 2"
+      },
+      {
+        "Target text 1": "Comment content 1",
+        "Target text 2": "Comment content 2"
+      }
+    ]
+    ```
+  - **text** (string, required): Comment text content (Format One)
+  - **target_text** (string, required): Target text in the document to comment on (Format One)
+  - **page** (integer, optional): Page number where the comment should be added (for table comments)
+
+#### Output Parameters
+
+- **status** (string): Operation status ("success" or "error")
+- **message** (string): Detailed message about the operation result
+- **output_file** (string): Path to the generated Word file with comments
+- **invalid_comments** (array, optional): List of comments that could not be added
+  - **text** (string): Comment text that failed
+  - **target_text** (string): Target text that couldn't be found
+  - **reason** (string): Reason for failure
 
 ## 🔧 Technical Architecture
 

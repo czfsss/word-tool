@@ -299,35 +299,51 @@ class WordChunkTool(Tool):
         """
         elements = []
         
-        # 遍历文档中的所有段落
-        for paragraph in doc.paragraphs:
-            elements.append({
-                "type": "paragraph",
-                "text": paragraph.text,
-                "paragraph": paragraph
-            })
-        
-        # 遍历文档中的所有表格
-        for table in doc.tables:
-            table_text = ""
-            # 处理表格中的每一行
-            for row in table.rows:
-                row_text = []
-                # 处理行中的每个单元格
-                for cell in row.cells:
-                    # 处理单元格中的每个段落
-                    cell_text = []
-                    for paragraph in cell.paragraphs:
-                        cell_text.append(paragraph.text.strip())
-                    # 将单元格中的所有段落文本合并
-                    row_text.append(" | ".join(cell_text))
-                # 将行中的所有单元格文本合并，并用换行符分隔
-                table_text += "\t".join(row_text) + "\n"
-            
-            elements.append({
-                "type": "table",
-                "text": table_text.strip()
-            })
+        # 获取文档中的所有段落和表格，按照它们在文档中出现的顺序
+        # 使用document.element.body来获取正确的元素顺序
+        for element in doc.element.body:
+            if element.tag.endswith('p'):  # 段落元素
+                # 获取段落对象
+                paragraph = None
+                for p in doc.paragraphs:
+                    if p._element == element:
+                        paragraph = p
+                        break
+                
+                if paragraph:
+                    elements.append({
+                        "type": "paragraph",
+                        "text": paragraph.text,
+                        "paragraph": paragraph
+                    })
+            elif element.tag.endswith('tbl'):  # 表格元素
+                # 获取表格对象
+                table = None
+                for t in doc.tables:
+                    if t._element == element:
+                        table = t
+                        break
+                
+                if table:
+                    table_text = ""
+                    # 处理表格中的每一行
+                    for row in table.rows:
+                        row_text = []
+                        # 处理行中的每个单元格
+                        for cell in row.cells:
+                            # 处理单元格中的每个段落
+                            cell_text = []
+                            for paragraph in cell.paragraphs:
+                                cell_text.append(paragraph.text.strip())
+                            # 将单元格中的所有段落文本合并
+                            row_text.append(" | ".join(cell_text))
+                        # 将行中的所有单元格文本合并，并用换行符分隔
+                        table_text += "\t".join(row_text) + "\n"
+                    
+                    elements.append({
+                        "type": "table",
+                        "text": table_text.strip()
+                    })
         
         return elements
 
@@ -349,7 +365,7 @@ class WordChunkTool(Tool):
             return False
             
         # 排除以特殊符号开头的段落（这些通常不是标题）
-        if re.match(r"^[（(][^）)]*[）)]|^--+|^—+|^==+|^__+", text):
+        if re.match(r"^《|^》|^\"|^'|^【|^】|^〔|^〕|^〖|^〗|^•|^·|^◇|^○|^□|^■|^▷|^▶|^※|^§|^№|^★|^☆|^[（(][^）)]*[）)]|^--+|^—+|^==+|^__+", text):
             return False
 
         # 1. 增强样式检测（增加常见样式别名）

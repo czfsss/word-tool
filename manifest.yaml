@@ -5,7 +5,7 @@ name: word-tools
 label:
   en_US: word-tools
   ja_JP: word-tools
-  zh_Hans: word-tools
+  zh_Hans: Word文档操作工具
   pt_BR: word-tools
 description:
   en_US: Word document operation tool that can segment Word documents, convert PDF to Word, and add annotations to Word documents

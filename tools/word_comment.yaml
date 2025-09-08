@@ -1,3 +1,70 @@
+# identity:
+#   name: word_comment
+#   author: word-tool
+#   label:
+#     en_US: Word Document Comment
+#     zh_Hans: Word文档批注
+# description:
+#   human:
+#     en_US: Add comments to Word document based on JSON key-value pairs, where keys are summary text and values are corresponding comments
+#     zh_Hans: 根据JSON键值对向Word文档添加批注，其中键为摘要文本，值为对应的批注内容
+#   llm: Add comments to Word document based on provided JSON mapping of summary text to comment content
+# parameters:
+#   - name: word_content
+#     type: file
+#     required: true
+#     label:
+#       en_US: Word Document
+#       zh_Hans: Word文档
+#     human_description:
+#       en_US: Upload the Word document (.docx) that needs comments to be added
+#       zh_Hans: 上传需要添加批注的Word文档(.docx格式)
+#     form: llm
+#   - name: comments_json
+#     type: string
+#     required: true
+#     label:
+#       en_US: Comments JSON
+#       zh_Hans: 批注JSON
+#     human_description:
+#       en_US: >
+#         JSON object containing key-value pairs where keys are summary text to find in the document 
+#         and values are the corresponding comments to add. 
+#         Example: {"summary1": "comment1", "summary2": "comment2"}
+#       zh_Hans: >
+#         包含键值对的JSON对象，其中键为文档中要查找的摘要文本，值为要添加的对应批注。
+#         示例：{"摘要1": "批注1", "摘要2": "批注2"}
+#     form: llm
+#   - name: author
+#     type: string
+#     required: false
+#     label:
+#       en_US: Comment Author
+#       zh_Hans: 批注者
+#     human_description:
+#       en_US: Name of the person adding comments (optional, defaults to "批注者")
+#       zh_Hans: 添加批注的人员姓名（可选，默认为"批注者"）
+#     form: llm
+#   - name: output_filename
+#     type: string
+#     required: false
+#     label:
+#       en_US: Custom Output Filename
+#       zh_Hans: 自定义输出文件名
+#     human_description:
+#       en_US: >
+#         Custom name for the output file (optional). 
+#         If not provided, will use original filename with "_commented" suffix.
+#         Do not include file extension (.docx will be added automatically).
+#       zh_Hans: >
+#         自定义输出文件名（可选）。
+#         如果不提供，将使用原文件名加"_commented"后缀。
+#         无需包含文件扩展名（会自动添加.docx）。
+#     form: llm
+# extra:
+#   python:
+#     source: tools/word_comment.py
+
 identity:
   name: word_comment
   author: word-tool
@@ -28,12 +95,15 @@ parameters:
       zh_Hans: 批注JSON
     human_description:
       en_US: >
-        JSON object containing key-value pairs where keys are summary text to find in the document 
-        and values are the corresponding comments to add. 
-        Example: {"summary1": "comment1", "summary2": "comment2"}
+        JSON data containing comments mapping. Supports two formats:
+        1. Array format: [{"summary1": "comment1", "summary2": "comment2"}, {"summary3": "comment3"}]
+        2. Object format: {"summary1": "comment1", "summary2": "comment2"} (legacy support)
+        Keys are summary text to find in the document, values are corresponding comments to add.
       zh_Hans: >
-        包含键值对的JSON对象，其中键为文档中要查找的摘要文本，值为要添加的对应批注。
-        示例：{"摘要1": "批注1", "摘要2": "批注2"}
+        包含批注映射的JSON数据。支持两种格式：
+        1. 数组格式：[{"摘要1": "批注1", "摘要2": "批注2"}, {"摘要3": "批注3"}]
+        2. 对象格式：{"摘要1": "批注1", "摘要2": "批注2"}（兼容旧格式）
+        键为文档中要查找的摘要文本，值为要添加的对应批注。
     form: llm
   - name: author
     type: string
@@ -60,6 +130,22 @@ parameters:
         自定义输出文件名（可选）。
         如果不提供，将使用原文件名加"_commented"后缀。
         无需包含文件扩展名（会自动添加.docx）。
+    form: llm
+  - name: similarity_threshold
+    type: string
+    required: false
+    label:
+      en_US: Similarity Threshold
+      zh_Hans: 相似度阈值
+    human_description:
+      en_US: >
+        Similarity threshold for fuzzy text matching (0.1-1.0, default: 0.8).
+        Higher values require more exact matches, lower values allow more flexible matching.
+        Recommended: 0.8 (80% similarity) for balanced results.
+      zh_Hans: >
+        模糊文本匹配的相似度阈值（0.1-1.0，默认：0.8）。
+        值越高要求匹配越精确，值越低允许更灵活的匹配。
+        推荐值：0.8（80%相似度），平衡效果较好。
     form: llm
 extra:
   python:
