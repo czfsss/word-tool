@@ -8,10 +8,10 @@ label:
   zh_Hans: Word文档操作工具
   pt_BR: word-tools
 description:
-  en_US: Word document operation tool that can segment Word documents, convert PDF to Word, and add annotations to Word documents
-  ja_JP: Word文書の分割、PDFからWordへの変換、およびWord文書への注釈の追加を実現するWord文書操作ツール
-  zh_Hans: word文档操作工具，可以实现word文档的分段、pdf转word操作以及word文档批注功能
-  pt_BR: Ferramenta de operação de documentos Word que pode segmentar documentos Word, converter PDF para Word e adicionar anotações aos documentos Word
+  en_US: Word document operation tool that can segment Word documents, convert PDF to Word, and add annotations to Word documents. It is recommended to change the PIP_MIRROR_URL parameter in the .env file to a domestic source. Otherwise, the installation of third-party libraries may be too slow due to network issues.
+  ja_JP: Word文書の分割、PDFからWordへの変換、およびWord文書への注釈の追加を実現するWord文書操作ツール。.envファイル内のPIP_MIRROR_URLパラメータを国内のソースに変更することをおすすめします。そうしないと、ネットワークの問題によりサードパーティライブラリのインストールが遅くなる可能性があります。
+  zh_Hans: word文档操作工具，可以实现word文档的分段、pdf转word操作以及word文档批注功能，建议将.env文件中的PIP_MIRROR_URL参数换成国内源，否则可能会因为网络问题导致安装第三方库安装过慢
+  pt_BR: Ferramenta de operação de documentos Word que pode segmentar documentos Word, converter PDF para Word e adicionar anotações aos documentos Word. Recomenda-se alterar o parâmetro PIP_MIRROR_URL no arquivo .env para uma fonte doméstica. Caso contrário, a instalação de bibliotecas de terceiros pode ser muito lenta devido a problemas de rede.
 icon: icon_new.svg
 icon_dark: icon-dark.svg
 resource:
