@@ -28,8 +28,8 @@
 #       zh_Hans: 批注JSON
 #     human_description:
 #       en_US: >
-#         JSON object containing key-value pairs where keys are summary text to find in the document 
-#         and values are the corresponding comments to add. 
+#         JSON object containing key-value pairs where keys are summary text to find in the document
+#         and values are the corresponding comments to add.
 #         Example: {"summary1": "comment1", "summary2": "comment2"}
 #       zh_Hans: >
 #         包含键值对的JSON对象，其中键为文档中要查找的摘要文本，值为要添加的对应批注。
@@ -53,7 +53,7 @@
 #       zh_Hans: 自定义输出文件名
 #     human_description:
 #       en_US: >
-#         Custom name for the output file (optional). 
+#         Custom name for the output file (optional).
 #         If not provided, will use original filename with "_commented" suffix.
 #         Do not include file extension (.docx will be added automatically).
 #       zh_Hans: >
@@ -97,13 +97,13 @@ parameters:
       en_US: >
         JSON data containing comments mapping. Supports two formats:
         1. Array format: [{"summary1": "comment1", "summary2": "comment2"}, {"summary3": "comment3"}]
-        2. Object format: {"summary1": "comment1", "summary2": "comment2"} (legacy support)
+        2. Object format: {"summary1": "comment1", "summary2": "comment2"}
         Keys are summary text to find in the document, values are corresponding comments to add.
       zh_Hans: >
         包含批注映射的JSON数据。支持两种格式：
         1. 数组格式：[{"摘要1": "批注1", "摘要2": "批注2"}, {"摘要3": "批注3"}]
-        2. 对象格式：{"摘要1": "批注1", "摘要2": "批注2"}（兼容旧格式）
-        键为文档中要查找的摘要文本，值为要添加的对应批注。
+        2. 对象格式：{"摘要1": "批注1", "摘要2": "批注2"}
+        键为文档中要查找的摘要文本(尽量是一句话或者一个小段落)，值为要添加的对应批注。
     form: llm
   - name: author
     type: string
@@ -124,15 +124,13 @@ parameters:
     human_description:
       en_US: >
         Custom name for the output file (optional). 
-        If not provided, will use original filename with "_commented" suffix.
         Do not include file extension (.docx will be added automatically).
       zh_Hans: >
-        自定义输出文件名（可选）。
-        如果不提供，将使用原文件名加"_commented"后缀。
+        自定义输出文件名（可选）,
         无需包含文件扩展名（会自动添加.docx）。
     form: llm
   - name: similarity_threshold
-    type: string
+    type: number
     required: false
     label:
       en_US: Similarity Threshold
