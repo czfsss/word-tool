@@ -1,0 +1,178 @@
+identity:
+  name: word_insert_text
+  author: word-tool
+  label:
+    en_US: Word Document Text Insertion
+    zh_Hans: Word文档文本插入
+description:
+  human:
+    en_US: Insert custom text at the beginning or end of a Word document with customizable font style, color and size
+    zh_Hans: 在Word文档的开头或结尾插入自定义文本，并可以自定义字体样式、颜色和大小
+  llm: Insert text into Word document at specified position with custom formatting options
+parameters:
+  - name: word_content
+    type: file
+    required: true
+    label:
+      en_US: Word Document
+      zh_Hans: Word文档
+    human_description:
+      en_US: Upload the Word document (.docx) where you want to insert text
+      zh_Hans: 上传要插入文本的Word文档(.docx格式)
+    form: llm
+  - name: text_to_insert
+    type: string
+    required: true
+    label:
+      en_US: Text to Insert
+      zh_Hans: 要插入的文本
+    human_description:
+      en_US: The text content that you want to insert into the Word document
+      zh_Hans: 要插入到Word文档中的文本内容
+    form: llm
+  - name: insert_position
+    type: select
+    required: false
+    label:
+      en_US: Insert Position
+      zh_Hans: 插入位置
+    human_description:
+      en_US: Choose where to insert the text： at the beginning (start) or at the end (end) of the document
+      zh_Hans: 选择文本插入位置：文档开头(start)或文档结尾(end)
+    form: llm
+    options:
+      - label:
+          en_US: Start
+          zh_Hans: 开头
+        value: start
+      - label:
+          en_US: End
+          zh_Hans: 结尾
+        value: end
+    default: end
+  - name: font_name
+    type: string
+    required: false
+    label:
+      en_US: Font Name
+      zh_Hans: 字体名称
+    human_description:
+      en_US: Name of the font to use for the inserted text (e.g., 宋体, Arial, Times New Roman)
+      zh_Hans: 插入文本所使用的字体名称（例如：宋体、Arial、Times New Roman）
+    form: llm
+    default: 宋体
+  - name: font_size
+    type: number
+    required: false
+    label:
+      en_US: Font Size
+      zh_Hans: 字体大小
+    human_description:
+      en_US: Size of the font in points (e.g., 12, 14, 16)
+      zh_Hans: 字体大小，以磅为单位（例如：12、14、16）
+    form: llm
+    default: 12
+  - name: font_color
+    type: select
+    required: false
+    label:
+      en_US: Font Color
+      zh_Hans: 字体颜色
+    human_description:
+      en_US: Choose a color for the font from common color options
+      zh_Hans: 从常见颜色选项中选择字体颜色
+    form: llm
+    options:
+      - label:
+          en_US: Black
+          zh_Hans: 黑色
+        value: 黑色
+      - label:
+          en_US: White
+          zh_Hans: 白色
+        value: 白色
+      - label:
+          en_US: Red
+          zh_Hans: 红色
+        value: 红色
+      - label:
+          en_US: Green
+          zh_Hans: 绿色
+        value: 绿色
+      - label:
+          en_US: Blue
+          zh_Hans: 蓝色
+        value: 蓝色
+      - label:
+          en_US: Yellow
+          zh_Hans: 黄色
+        value: 黄色
+      - label:
+          en_US: Purple
+          zh_Hans: 紫色
+        value: 紫色
+      - label:
+          en_US: Orange
+          zh_Hans: 橙色
+        value: 橙色
+      - label:
+          en_US: Pink
+          zh_Hans: 粉色
+        value: 粉色
+      - label:
+          en_US: Brown
+          zh_Hans: 棕色
+        value: 棕色
+      - label:
+          en_US: Gray
+          zh_Hans: 灰色
+        value: 灰色
+      - label:
+          en_US: Dark Blue
+          zh_Hans: 深蓝色
+        value: 深蓝色
+      - label:
+          en_US: Dark Green
+          zh_Hans: 深绿色
+        value: 深绿色
+      - label:
+          en_US: Dark Red
+          zh_Hans: 深红色
+        value: 深红色
+      - label:
+          en_US: Cyan
+          zh_Hans: 青色
+        value: 青色
+      - label:
+          en_US: Gold
+          zh_Hans: 金色
+        value: 金色
+      - label:
+          en_US: Silver
+          zh_Hans: 银色
+        value: 银色
+    default: 黑色
+  - name: output_filename
+    type: string
+    required: false
+    label:
+      en_US: Custom Output Filename
+      zh_Hans: 自定义输出文件名
+    human_description:
+      en_US: Custom name for the output file (optional). Do not include file extension (.docx will be added automatically).
+      zh_Hans: 自定义输出文件名（可选），无需包含文件扩展名（会自动添加.docx）。
+    form: llm
+  - name: is_markdown
+    type: boolean
+    required: false
+    label:
+      en_US: Is Markdown Text
+      zh_Hans: 是否为Markdown文本
+    human_description:
+      en_US: Whether the text to insert is in Markdown format. If true, the text will be converted to Word format with proper formatting.
+      zh_Hans: 要插入的文本是否为Markdown格式。如果为true，文本将被转换为具有适当格式的Word格式。
+    form: llm
+    default: false
+extra:
+  python:
+    source: tools/word_insert_text.py

@@ -60,6 +60,7 @@ tools:
   - tools/word-chunk.yaml
   - tools/pdf_to_word.yaml
   - tools/word_comment.yaml
+  - tools/word_insert_text.yaml
 extra:
   python:
     source: provider/word-chunk.py
