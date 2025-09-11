@@ -1,0 +1,3959 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: advanced-chat
+  name: 合同审核助手
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: package
+  value:
+    plugin_unique_identifier: langgenius/huggingface_tei:0.0.3@f543be715223b03acded15b736f3205a11969562544c77798156210b9ddd520d
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: yangyaofei/vllm:0.1.5@3eecf807d9767f40eb757ff70720291aa6055e9e1803893b4c93b61a5d4d4319
+- current_identifier: null
+  type: package
+  value:
+    plugin_unique_identifier: czfsss/word-tools:0.0.2@a9048936ac96b68af0b9cba734fa5cd0691a7c738997c8508f70c05222bb3016
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: bowenliang123/md_exporter:1.10.2@917ba23c64837daebce1e2a560b8c10ffafe44a2a16154526df880c503b9ea95
+kind: app
+version: 0.3.1
+workflow:
+  conversation_variables:
+  - description: 存放每次叠加的段落总结与补充建议(用于迭代后审查文章结构智能体对整体文章结构的审查)
+    id: afb6ece0-eb31-40f6-9dbf-ee0dfa7ac393
+    name: summary_provisions
+    selector:
+    - conversation
+    - summary_provisions
+    value: []
+    value_type: array[string]
+  - description: 存放每次迭代的批注字典
+    id: 6e686721-bee8-46a5-bcd7-e3b10cb115fd
+    name: comment
+    selector:
+    - conversation
+    - comment
+    value: []
+    value_type: array[object]
+  - description: 分段的结果
+    id: b09ed515-dd7f-4d1a-86d1-7030b4307faa
+    name: chunk_result
+    selector:
+    - conversation
+    - chunk_result
+    value: []
+    value_type: array[object]
+  - description: 用户的关注点
+    id: 8d3d6ebc-2f39-49dd-b6f4-13073c3cac27
+    name: focus
+    selector:
+    - conversation
+    - focus
+    value: 用户未写关注点
+    value_type: string
+  - description: 用于存放每个段落分析的结果
+    id: af5b4efc-9702-482d-af6b-ccf5b1928a66
+    name: chunk_analysis
+    selector:
+    - conversation
+    - chunk_analysis
+    value: []
+    value_type: array[string]
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - document
+      allowed_file_upload_methods:
+      - local_file
+      enabled: true
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 100
+        file_size_limit: 500
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 1
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: answer
+      id: 1756862887896-true-1756863072262-target
+      selected: false
+      source: '1756862887896'
+      sourceHandle: 'true'
+      target: '1756863072262'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: iteration
+      id: 1756863180113-source-1756863291549-target
+      selected: false
+      source: '1756863180113'
+      sourceHandle: source
+      target: '1756863291549'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        sourceType: iteration-start
+        targetType: template-transform
+      id: 1756863291549start-source-1756863324872-target
+      selected: false
+      source: 1756863291549start
+      sourceHandle: source
+      target: '1756863324872'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        sourceType: if-else
+        targetType: knowledge-retrieval
+      id: 1756871331054-true-1756867001280-target
+      selected: false
+      source: '1756871331054'
+      sourceHandle: 'true'
+      target: '1756867001280'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        sourceType: if-else
+        targetType: knowledge-retrieval
+      id: 1756871331054-true-1756868122388-target
+      selected: false
+      source: '1756871331054'
+      sourceHandle: 'true'
+      target: '1756868122388'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: if-else
+      id: 1756874590481-source-1756862887896-target
+      selected: false
+      source: '1756874590481'
+      sourceHandle: source
+      target: '1756862887896'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        sourceType: if-else
+        targetType: knowledge-retrieval
+      id: 1756871331054-false-1756881287035-target
+      selected: false
+      source: '1756871331054'
+      sourceHandle: 'false'
+      target: '1756881287035'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        sourceType: knowledge-retrieval
+        targetType: llm
+      id: 1756881287035-source-1756881343525-target
+      selected: false
+      source: '1756881287035'
+      sourceHandle: source
+      target: '1756881343525'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: assigner
+      id: 1756713121715-source-1756882355075-target
+      selected: false
+      source: '1756713121715'
+      sourceHandle: source
+      target: '1756882355075'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: assigner
+        targetType: code
+      id: 1756882355075-source-1756874590481-target
+      selected: false
+      source: '1756882355075'
+      sourceHandle: source
+      target: '1756874590481'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        sourceType: answer
+        targetType: template-transform
+      id: 1756884192361-source-1756883554392-target
+      selected: false
+      source: '1756884192361'
+      sourceHandle: source
+      target: '1756883554392'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: tool
+      id: 1756862887896-ed705da6-d244-4fec-9d76-a5b9e6c50891-1756949868971-target
+      selected: false
+      source: '1756862887896'
+      sourceHandle: ed705da6-d244-4fec-9d76-a5b9e6c50891
+      target: '1756949868971'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: tool
+        targetType: assigner
+      id: 1756949868971-source-1756949997919-target
+      selected: false
+      source: '1756949868971'
+      sourceHandle: source
+      target: '1756949997919'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: assigner
+        targetType: code
+      id: 1756949997919-source-1756863180113-target
+      selected: false
+      source: '1756949997919'
+      sourceHandle: source
+      target: '1756863180113'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: tool
+        targetType: assigner
+      id: 1756949907665-source-1756950016181-target
+      selected: false
+      source: '1756949907665'
+      sourceHandle: source
+      target: '1756950016181'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1756862887896-false-1756871458847-target
+      selected: false
+      source: '1756862887896'
+      sourceHandle: 'false'
+      target: '1756871458847'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 1756871458847-source-1756950076931-target
+      selected: false
+      source: '1756871458847'
+      sourceHandle: source
+      target: '1756950076931'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        sourceType: llm
+        targetType: answer
+      id: 1756881343525-source-1756886123000-target
+      selected: false
+      source: '1756881343525'
+      sourceHandle: source
+      target: '1756886123000'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: tool
+      id: 1756955563587-source-1756955401528-target
+      selected: false
+      source: '1756955563587'
+      sourceHandle: source
+      target: '1756955401528'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: tool
+        targetType: answer
+      id: 1756955401528-source-1756955671972-target
+      selected: false
+      source: '1756955401528'
+      sourceHandle: source
+      target: '1756955671972'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: answer
+      id: 1756862887896-3c8e6fe9-def9-4ad3-b3dc-cf3704816294-1756965914788-target
+      selected: false
+      source: '1756862887896'
+      sourceHandle: 3c8e6fe9-def9-4ad3-b3dc-cf3704816294
+      target: '1756965914788'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: answer
+        targetType: tool
+      id: 1756965914788-source-1756949890518-target
+      selected: false
+      source: '1756965914788'
+      sourceHandle: source
+      target: '1756949890518'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: tool
+        targetType: tool
+      id: 1756949890518-source-1756949907665-target
+      selected: false
+      source: '1756949890518'
+      sourceHandle: source
+      target: '1756949907665'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: assigner
+        targetType: answer
+      id: 1756950016181-source-1756966027192-target
+      selected: false
+      source: '1756950016181'
+      sourceHandle: source
+      target: '1756966027192'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: answer
+        targetType: code
+      id: 1756966027192-source-1756863180113-target
+      selected: false
+      source: '1756966027192'
+      sourceHandle: source
+      target: '1756863180113'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: tool
+      id: 1756862887896-3cb496ea-17a4-44ce-9f06-a96f25c85183-1756975292823-target
+      selected: false
+      source: '1756862887896'
+      sourceHandle: 3cb496ea-17a4-44ce-9f06-a96f25c85183
+      target: '1756975292823'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: tool
+        targetType: assigner
+      id: 1756975292823-source-17569753480200-target
+      selected: false
+      source: '1756975292823'
+      sourceHandle: source
+      target: '17569753480200'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: assigner
+        targetType: code
+      id: 17569753480200-source-1756863180113-target
+      selected: false
+      source: '17569753480200'
+      sourceHandle: source
+      target: '1756863180113'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        sourceType: llm
+        targetType: template-transform
+      id: 1756884882562-source-1757044513623-target
+      selected: false
+      source: '1756884882562'
+      sourceHandle: source
+      target: '1757044513623'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        sourceType: template-transform
+        targetType: if-else
+      id: 1757044513623-source-1756871331054-target
+      selected: false
+      source: '1757044513623'
+      sourceHandle: source
+      target: '1756871331054'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        sourceType: answer
+        targetType: template-transform
+      id: 1756886123000-source-1756955291364-target
+      selected: false
+      source: '1756886123000'
+      sourceHandle: source
+      target: '1756955291364'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        sourceType: template-transform
+        targetType: code
+      id: 1756955291364-source-1757054270193-target
+      selected: false
+      source: '1756955291364'
+      sourceHandle: source
+      target: '1757054270193'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        sourceType: code
+        targetType: template-transform
+      id: 1757054270193-source-1757055047517-target
+      selected: false
+      source: '1757054270193'
+      sourceHandle: source
+      target: '1757055047517'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        sourceType: template-transform
+        targetType: assigner
+      id: 1757055420766-source-1756863467923-target
+      selected: false
+      source: '1757055420766'
+      sourceHandle: source
+      target: '1756863467923'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: answer
+        targetType: llm
+      id: 1757057606731-source-1757055611575-target
+      selected: false
+      source: '1757057606731'
+      sourceHandle: source
+      target: '1757055611575'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 1757055611575-source-1757057684198-target
+      selected: false
+      source: '1757055611575'
+      sourceHandle: source
+      target: '1757057684198'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        sourceType: llm
+        targetType: code
+      id: 1756867022461-source-1757058213567-target
+      selected: false
+      source: '1756867022461'
+      sourceHandle: source
+      target: '1757058213567'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        sourceType: template-transform
+        targetType: template-transform
+      id: 1756883554392-source-1757055420766-target
+      selected: false
+      source: '1756883554392'
+      sourceHandle: source
+      target: '1757055420766'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInLoop: false
+        sourceType: iteration
+        targetType: code
+      id: 1756863291549-source-1757314599680-target
+      selected: false
+      source: '1756863291549'
+      sourceHandle: source
+      target: '1757314599680'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        sourceType: template-transform
+        targetType: assigner
+      id: 1757055047517-source-1756955364534-target
+      selected: false
+      source: '1757055047517'
+      sourceHandle: source
+      target: '1756955364534'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        sourceType: template-transform
+        targetType: answer
+      id: 1756863324872-source-1757321352735-target
+      source: '1756863324872'
+      sourceHandle: source
+      target: '1757321352735'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        sourceType: answer
+        targetType: llm
+      id: 1757321352735-source-1756884882562-target
+      source: '1757321352735'
+      sourceHandle: source
+      target: '1756884882562'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        sourceType: knowledge-retrieval
+        targetType: code
+      id: 1756867001280-source-1757333178904-target
+      source: '1756867001280'
+      sourceHandle: source
+      target: '1757333178904'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        sourceType: code
+        targetType: llm
+      id: 1757333178904-source-1756867022461-target
+      source: '1757333178904'
+      sourceHandle: source
+      target: '1756867022461'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        sourceType: knowledge-retrieval
+        targetType: code
+      id: 1756868122388-source-1757333178904-target
+      source: '1756868122388'
+      sourceHandle: source
+      target: '1757333178904'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        sourceType: code
+        targetType: answer
+      id: 1757058213567-source-1756884192361-target
+      source: '1757058213567'
+      sourceHandle: source
+      target: '1756884192361'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: answer
+      id: 1757314599680-source-1757057606731-target
+      source: '1757314599680'
+      sourceHandle: source
+      target: '1757057606731'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: answer
+        targetType: llm
+      id: 1757057684198-source-1757486892616-target
+      source: '1757057684198'
+      sourceHandle: source
+      target: '1757486892616'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: tool
+        targetType: tool
+      id: 1757321057716-source-1757488857415-target
+      source: '1757321057716'
+      sourceHandle: source
+      target: '1757488857415'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 1757486892616-source-1757489560503-target
+      source: '1757486892616'
+      sourceHandle: source
+      target: '1757489560503'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: answer
+        targetType: code
+      id: 1757489560503-source-1756955563587-target
+      source: '1757489560503'
+      sourceHandle: source
+      target: '1756955563587'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: answer
+        targetType: tool
+      id: 1756955671972-source-1757321057716-target
+      source: '1756955671972'
+      sourceHandle: source
+      target: '1757321057716'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: tool
+        targetType: template-transform
+      id: 1757488857415-source-1757492131521-target
+      source: '1757488857415'
+      sourceHandle: source
+      target: '1757492131521'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: template-transform
+        targetType: answer
+      id: 1757492131521-source-1757314791861-target
+      source: '1757492131521'
+      sourceHandle: source
+      target: '1757314791861'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - label: 需要审核的文件类型
+          max_length: 48
+          options:
+          - 合同审核
+          - 制度审核
+          required: true
+          type: select
+          variable: file_type
+        - label: 关注点(选填)
+          max_length: 256
+          options: []
+          required: false
+          type: text-input
+          variable: focus_point
+        - label: 合同方(只有在文件类型为合同类型时，需要选择)
+          max_length: 48
+          options:
+          - 甲方
+          - 乙方
+          - 无
+          required: false
+          type: select
+          variable: Contracting_Party
+      height: 140
+      id: '1756713121715'
+      position:
+        x: 388.7328106897248
+        y: 176
+      positionAbsolute:
+        x: 388.7328106897248
+        y: 176
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: contains
+            id: 2d610993-665c-4833-9b55-9c76772781f5
+            sub_variable_condition:
+              case_id: 4ff89a68-6855-42e8-b23b-17751e7f7d6e
+              conditions:
+              - comparison_operator: is
+                id: cf743f4c-ce0f-4eb4-9de3-237ebe0df13c
+                key: extension
+                value: .doc
+                varType: string
+              logical_operator: and
+            value: ''
+            varType: array[file]
+            variable_selector:
+            - sys
+            - files
+          id: 'true'
+          logical_operator: and
+        - case_id: ed705da6-d244-4fec-9d76-a5b9e6c50891
+          conditions:
+          - comparison_operator: contains
+            id: a6055750-4497-4c4a-a713-c891ce2e01fe
+            sub_variable_condition:
+              case_id: 18c43946-1998-4a9d-ba1e-05a327b307f9
+              conditions:
+              - comparison_operator: is
+                id: 7c6fc084-bf1d-4677-a5e1-6a722affffa5
+                key: extension
+                value: .docx
+                varType: string
+              logical_operator: and
+            value: ''
+            varType: array[file]
+            variable_selector:
+            - sys
+            - files
+          - comparison_operator: is
+            id: 58981fe2-0004-4f69-938e-0ebcda1c3d42
+            value: 合同审核
+            varType: string
+            variable_selector:
+            - '1756713121715'
+            - file_type
+          id: ed705da6-d244-4fec-9d76-a5b9e6c50891
+          logical_operator: and
+        - case_id: 3c8e6fe9-def9-4ad3-b3dc-cf3704816294
+          conditions:
+          - comparison_operator: contains
+            id: 5f2feddb-054b-43f4-b7c1-77137a1f6d02
+            sub_variable_condition:
+              case_id: d8fdc06f-3158-4363-b605-86de0e981244
+              conditions:
+              - comparison_operator: is
+                id: 48c8aee0-e942-4a58-8d85-5878e26fab61
+                key: extension
+                value: .pdf
+                varType: string
+              logical_operator: and
+            value: ''
+            varType: array[file]
+            variable_selector:
+            - sys
+            - files
+          id: 3c8e6fe9-def9-4ad3-b3dc-cf3704816294
+          logical_operator: and
+        - case_id: 3cb496ea-17a4-44ce-9f06-a96f25c85183
+          conditions:
+          - comparison_operator: contains
+            id: c71d66bd-d533-45b4-9655-ea0c1163e9e6
+            sub_variable_condition:
+              case_id: 2ac56f4d-5cce-4ae8-9e27-ba1103493e5a
+              conditions:
+              - comparison_operator: is
+                id: cac435bf-8cab-4b25-af04-0ab9131bee65
+                key: extension
+                value: .docx
+                varType: string
+              logical_operator: and
+            value: ''
+            varType: array[file]
+            variable_selector:
+            - sys
+            - files
+          - comparison_operator: contains
+            id: 0491be45-9539-4f13-821e-b5c2fb122774
+            value: 制度审核
+            varType: string
+            variable_selector:
+            - '1756713121715'
+            - file_type
+          id: 3cb496ea-17a4-44ce-9f06-a96f25c85183
+          logical_operator: and
+        desc: ''
+        selected: false
+        title: 条件分支
+        type: if-else
+      height: 416
+      id: '1756862887896'
+      position:
+        x: 1029.295396871533
+        y: 288
+      positionAbsolute:
+        x: 1029.295396871533
+        y: 288
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        answer: '******
+
+
+          <div style="font-family: ''Segoe UI'', Arial, sans-serif; font-size: 14px;
+          color: #721c24; background-color: #f8d7da; padding: 8px 12px; border-radius:
+          4px; border-left: 4px solid #dc3545; margin-top: 8px; box-shadow: 0 2px
+          4px rgba(0,0,0,0.1);">📄❌ 抱歉，暂不支持doc文件，请将doc文件另存为docx文件后重新上传</div>'
+        desc: ''
+        selected: false
+        title: 直接回复
+        type: answer
+        variables: []
+      height: 244
+      id: '1756863072262'
+      position:
+        x: 1393.8801569227846
+        y: -14.15211239251471
+      positionAbsolute:
+        x: 1393.8801569227846
+        y: -14.15211239251471
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        code: "def main(chunks) -> dict:\n    # 提取第一个字典\n    data_dict = chunks[0]\n\
+          \    # 按数值顺序排序键（1,2,3...30）\n    sorted_keys = sorted(data_dict.keys(),\
+          \ key=lambda x: int(x))\n    # 按排序后的键构建结果\n    content = [{key: data_dict[key]}\
+          \ for key in sorted_keys]\n    return {\"result\": content}"
+        code_language: python3
+        desc: ''
+        outputs:
+          result:
+            children: null
+            type: array[object]
+        selected: false
+        title: 转换类型
+        type: code
+        variables:
+        - value_selector:
+          - conversation
+          - chunk_result
+          value_type: array[object]
+          variable: chunks
+      height: 52
+      id: '1756863180113'
+      position:
+        x: 2283.775545940161
+        y: 648.949559960997
+      positionAbsolute:
+        x: 2283.775545940161
+        y: 648.949559960997
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        desc: ''
+        error_handle_mode: terminated
+        height: 990
+        is_parallel: false
+        iterator_input_type: array[object]
+        iterator_selector:
+        - '1756863180113'
+        - result
+        output_selector:
+        - '1756863324872'
+        - output
+        output_type: array[string]
+        parallel_nums: 1
+        selected: false
+        start_node_id: 1756863291549start
+        title: 迭代
+        type: iteration
+        width: 3096
+      height: 990
+      id: '1756863291549'
+      position:
+        x: 1533.0888345456788
+        y: 1103.6400819514079
+      positionAbsolute:
+        x: 1533.0888345456788
+        y: 1103.6400819514079
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 3096
+      zIndex: 1
+    - data:
+        desc: ''
+        isInIteration: true
+        selected: false
+        title: ''
+        type: iteration-start
+      draggable: false
+      height: 48
+      id: 1756863291549start
+      parentId: '1756863291549'
+      position:
+        x: 24
+        y: 68
+      positionAbsolute:
+        x: 1557.0888345456788
+        y: 1171.6400819514079
+      selectable: false
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-iteration-start
+      width: 44
+      zIndex: 1002
+    - data:
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        selected: false
+        template: "第{{ chunk.keys() | first }}个段落: \r\n{{ chunk.values() | first }}"
+        title: 段落模板
+        type: template-transform
+        variables:
+        - value_selector:
+          - '1756863291549'
+          - item
+          value_type: object
+          variable: chunk
+      height: 52
+      id: '1756863324872'
+      parentId: '1756863291549'
+      position:
+        x: 96.74555330275234
+        y: 65
+      positionAbsolute:
+        x: 1629.834387848431
+        y: 1168.6400819514079
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+      zIndex: 1002
+    - data:
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        items:
+        - input_type: variable
+          operation: append
+          value:
+          - '1756883554392'
+          - output
+          variable_selector:
+          - conversation
+          - chunk_analysis
+          write_mode: over-write
+        - input_type: variable
+          operation: append
+          value:
+          - '1757055420766'
+          - output
+          variable_selector:
+          - conversation
+          - summary_provisions
+          write_mode: over-write
+        - input_type: variable
+          operation: append
+          value:
+          - '1757058213567'
+          - problems
+          variable_selector:
+          - conversation
+          - comment
+          write_mode: over-write
+        iteration_id: '1756863291549'
+        selected: false
+        title: 变量赋值
+        type: assigner
+        version: '2'
+      height: 142
+      id: '1756863467923'
+      parentId: '1756863291549'
+      position:
+        x: 2786.049546586046
+        y: 228.24163645600015
+      positionAbsolute:
+        x: 4319.138381131725
+        y: 1331.881718407408
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+      zIndex: 1002
+    - data:
+        dataset_ids:
+        - cEeovvkhMctdM+00mfzy0TzIZ/owfaWlFtaUasaBzcxEAH8l8zrRdjaTTD67p52V
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        multiple_retrieval_config:
+          reranking_enable: false
+          reranking_mode: reranking_model
+          reranking_model:
+            model: BAAI/bge-reranker-v2-m3
+            provider: langgenius/huggingface_tei/huggingface_tei
+          score_threshold: null
+          top_k: 3
+        query_variable_selector:
+        - '1757044513623'
+        - output
+        retrieval_mode: multiple
+        selected: false
+        title: 合同范本检索
+        type: knowledge-retrieval
+      height: 90
+      id: '1756867001280'
+      parentId: '1756863291549'
+      position:
+        x: 1023.6860998128859
+        y: 111.3552211036274
+      positionAbsolute:
+        x: 2556.7749343585647
+        y: 1214.9953030550353
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+      zIndex: 1002
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1757333178904'
+          - result
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        model:
+          completion_params:
+            temperature: 0.1
+          mode: chat
+          name: Qwen3-30B-A3B-Instruct-2507
+          provider: yangyaofei/vllm/vllm
+        prompt_template:
+        - id: a7ec8857-2f04-4580-9751-63c2b1c2bb55
+          role: system
+          text: "【身份设定】\n你是一个专业的AI合同审查助手兼资深法律顾问，具备深厚的丰富的合同实务经验与法律知识。你的任务是根据用户上传的合同段落，结合其选择的合同立场（甲方/乙方）以及检索到的相关标准合同范本以及法律条文，进行全面、系统、细致的合同审查，并输出一份结构清晰、重点突出、建议明确的审查结果。\n\
+            \n【背景说明】\n原合同文件已被切分为多个段落，当前仅提供其中一段。部分上下文信息可能缺失，请基于现有内容审慎判断，避免过度推断。\n\n\
+            【要求】\n请严格按照以下审查方向进行分析，由于当前只是文件的部分段落，所以以下审查方向可能不需要全部使用，在分析过程中，请始终以“为客户立场争取合法权益、促进交易达成”为目标，保持专业、不中立有立场（即根据用户身份动态调整策略）。\n\
+            \n**查合同目的与性质**\n任务要求：\n1、分析合同的实际交易结构和经济目的；\n2、判断合同属于典型合同（如买卖、租赁、承揽等）还是无名合同；\n\
+            3、若存在法律定性模糊地带（如劳务 vs 承揽、投资 vs 借贷），应评估不同定性的法律后果；\n4、结合用户身份（甲方/乙方），优先选择对用户更有利的方向提出建议。\n\
+            \n**查合同条款可操作性**\n任务要求：\n1、审查关键条款是否具体、可执行（如“尽快交付”、“合理期限内付款”等模糊表述）；\n2、时间节点是否明确（避免“年终支付”这类不确定表达）；\n\
+            3、验收流程、通知方式、违约认定标准是否清晰；\n4、结合用户角色，强化有利于用户的执行机制（如作为甲方时，增加单方验收权；作为乙方时，设置付款前置条件）。\n\
+            \n**查权利义务平衡性**\n任务要求：\n1、分析双方权利义务是否对等；\n2、若用户为弱势方（如乙方在采购合同中），应建议增加保护性条款（如付款保障、变更补偿）；\n\
+            3、若用户为强势方（如甲方），可建议保留合理控制权，但避免过度苛刻导致交易失败；\n> 提醒：过度倾斜可能影响合同签署成功率。\n\n**查违约责任适当性**\n\
+            任务要求：\n1、审查违约金是否过高（超过实际损失30%可能被调减）或过低（无法起到威慑作用）；\n2、是否涵盖主要履约风险点（延迟交付、质量不符、泄密、违约解除等）；\n\
+            3、根据用户身份调整建议方向：\n用户为守约方：建议设置合理高额违约金；\n用户为履约方：建议设置上限或免责情形。\n\n**查用语表达规范性**\n\
+            任务要求：\n1、使用“法言法语”：如“偿付”用于金钱债务，“赔偿”用于损害补偿，“定金”具担保效力，“订金”仅为预付款；\n避免口语化、情绪化表述；\n\
+            2、统一术语使用（全文统一使用“甲方/乙方”或“买方/卖方”）；\n3、前后表述一致，避免矛盾。\n\n**查标点符号恰当性**\n任务要求：\n\
+            1、检查长句是否因缺少分号、句号而导致歧义；\n2、并列项之间应使用顿号，而非逗号；\n3、引用法律条文时注意括号、引号使用规范；\n示例问题：\n\
+            “乙方应按时交付货物运输安装调试并验收合格”——多个动作无停顿，易生歧义。\n【优化表述】“乙方应按时交付货物，并负责运输、安装、调试，直至验收合格。”\n\
+            \n**查合同格式美观性**\n任务要求：\n1、是否有清晰层级结构（标题、子标题、条款编号）；\n2、文件命名是否规范（建议包含“合同名称版本号日期”）；\n\
+            3、提示用户：良好的格式有助于提升专业形象，便于归档与谈判。\n\n**额外要求：标准合同范本比对分析**\n任务要求：\n1、接收系统提供的行业标准范本；\n\
+            2、将用户合同与范本进行逐条对比，标记差异点；\n3、对偏离范本的重大条款进行风险提示；\n4、特别关注范本中保护弱势方的条款（如消费者权益、劳动者权利）是否被弱化。\n\
+            5、检查合同段落是否有需要补充项或者遗漏项\n\n**额外要求：动态立场识别（基于用户选择）**\n用户角色：甲方 / 乙方 \n用户角色审查侧重点\n\
+            甲方（买方/委托方）：为甲方争取最大权益，最大限度降低甲方合同风险\n乙方（卖方/承包方）：为乙方争取最大权益，最大限度降低乙方合同风险\n\
+            \n**额外要求：法律法规合规性审查**\n1、 检索并引用最直接相关的法律条文（注明名称、条、款、项及原文）；\n2、**逐条对比分析**：将合同段落的具体条款与检索到的法律条文进行逐项比对，重点审查：\n\
+            \  ​    *   **完备性**：合同是否涵盖了法律要求的全部要素（如主体、条件、程序、责任等）。\n  ​    *   **明确性**：合同表述是否清晰、无歧义，能否有效避免执行中的误解。\n\
+            \  ​    *   **超规设定**：合同要求是否有违法律规定的范围（需提示其合规性及潜在影响）。\n3、识别合规风险并评估等级（高/中/低）；\n\
+            4、 对严于法律但不违法的管理性条款予以说明。\n\n【输出要求】\n1、审核结果按以下格式输出：\n**合同文件中存在问题的原句摘要**\n\
+            \ [具体原句内容]\n> 注意：`合同文件中存在问题的原句摘要`要以一个句子或者一个小段落为单元，不允许一次性输出多个段落或长段落，若有多句话或者多个小段落有问题，可以重复该结构，但不得超过5个，原句不允许省略，务必保证原句完整性！\n\
+            \n**问题点**\n[具体问题描述]\n\n**相关法律依据**\n> [法律1]\n\n> [法律2]\n\n**风险等级**\n> [风险等级]\n\
+            \n**修改建议**\n[具体修改建议，不超过五点]\n\n**是否有需要补充的条款**\n[是/否及补充内容]\n（多个问题重复以上结构，每一个结构都不能少，每段的问题不超过5条！）\n\
+            \n注意：\n1、\n--问题点和修改建议需要加上序号，显得结构更加清晰。引用法律条文时，使用 > 符号开头，并独占一行，不同法律条文之间需空一行。\n\
+            --对于条款中遗漏或者建议补充的相关条款，若有就输出补充建议并说明理由(尽量精确简短),若无就直接输出无，但**是否有需要补充的条款**标题务必要有。\n\
+            --`合同文件中存在问题的原句摘要`务必要求原文准确，因为后续节点要根据原句检索对文章进行批注，原文错误将会检索不到。\n> 注意：`合同文件中存在问题的原句摘要`要以一个句子或者一个小段落为单元，不允许一次性输出多个段落或长段落，若有多句话或者多个小段落有问题，可以重复该结构，但不得超过5个，原句不允许省略，务必保证原句完整性！\n\
+            2、输出结果要结构清晰、精简、标题醒目，只输出需要包含的点和一段精简概括的总结，其他话语均不要输出。\n3、审核可以适当的宽松，不是必须要审核出问题，若当前段落未发现风险或者问题，就直接输出该段落暂未发现问题风险点。\n\
+            4、务必要讲事实将依据，不可以随意捏造事实，否则会对用户的决策造成灾难性的损失！\n\n【输入参数】\n- 这是当前用户的合同立场：{{#1756713121715.Contracting_Party#}};\n\
+            - 这是当前的合同名称：{{#1756874590481.result#}}; \n- 这是当前的合同段落：{{#1756863324872.output#}};\n\
+            - 这是检索到的合同范本和相关法律法规： {{#context#}}\n- 这是用户可能会有的特别关注点：{{#1756713121715.focus_point#}}\n\
+            > ⚠️ 若存在特别关注点，请优先聚焦审查。"
+        selected: false
+        structured_output:
+          schema:
+            additionalProperties: false
+            properties:
+              find_problem:
+                description: 发现的问题
+                type: string
+              modification_suggestions:
+                description: 修改建议
+                type: string
+              original text:
+                description: 合同原文的问题句摘要
+                type: string
+              risk_level:
+                description: 风险等级
+                type: string
+            required:
+            - original text
+            - find_problem
+            - risk_level
+            - modification_suggestions
+            type: object
+        structured_output_enabled: false
+        title: 合同审核智能体
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 88
+      id: '1756867022461'
+      parentId: '1756863291549'
+      position:
+        x: 1577.7897783670714
+        y: 165.78066278888718
+      positionAbsolute:
+        x: 3110.87861291275
+        y: 1269.420744740295
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+      zIndex: 1002
+    - data:
+        dataset_ids:
+        - 6m3woQ2tk5WycmowCu6DWXHAxzInJ1BDQ2VB5RZMvFS3DRpg8Rszr24tQo6cHgqE
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        multiple_retrieval_config:
+          reranking_enable: true
+          reranking_mode: reranking_model
+          reranking_model:
+            model: BAAI/bge-reranker-v2-m3
+            provider: langgenius/huggingface_tei/huggingface_tei
+          score_threshold: null
+          top_k: 10
+        query_variable_selector:
+        - '1756884882562'
+        - text
+        retrieval_mode: multiple
+        selected: false
+        title: 检索相关法律法规
+        type: knowledge-retrieval
+      height: 90
+      id: '1756868122388'
+      parentId: '1756863291549'
+      position:
+        x: 1022.9975065269891
+        y: 235.71196423692868
+      positionAbsolute:
+        x: 2556.086341072668
+        y: 1339.3520461883365
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+      zIndex: 1002
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: is
+            id: f0e95fd7-f2d1-4578-8860-efbcc31ba14b
+            value: 合同审核
+            varType: string
+            variable_selector:
+            - '1756713121715'
+            - file_type
+          id: 'true'
+          logical_operator: and
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        selected: false
+        title: 条件分支 2
+        type: if-else
+      height: 124
+      id: '1756871331054'
+      parentId: '1756863291549'
+      position:
+        x: 717.5474969082748
+        y: 268.20421825902554
+      positionAbsolute:
+        x: 2250.6363314539535
+        y: 1371.8443002104334
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+      zIndex: 1002
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - sys
+          - query
+        desc: ''
+        memory:
+          query_prompt_template: '{{#sys.query#}}
+
+
+            {{#sys.files#}}'
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: false
+            size: 50
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: Qwen3-32B
+          provider: yangyaofei/vllm/vllm
+        prompt_template:
+        - id: 797809cf-98a1-4b66-adee-717e4a688f2d
+          role: system
+          text: 帮助用户回答相关问题
+        selected: false
+        title: 智能聊天助手
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 88
+      id: '1756871458847'
+      position:
+        x: 1393.8801569227846
+        y: 773.0099011095841
+      positionAbsolute:
+        x: 1393.8801569227846
+        y: 773.0099011095841
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        code: "\ndef main(file_json) -> dict:\n    return {\n        \"result\": file_json[0]['filename'].split('.')[0]\n\
+          \    }\n"
+        code_language: python3
+        desc: ''
+        outputs:
+          result:
+            children: null
+            type: string
+        selected: false
+        title: 文件名称
+        type: code
+        variables:
+        - value_selector:
+          - sys
+          - files
+          value_type: array[file]
+          variable: file_json
+      height: 52
+      id: '1756874590481'
+      position:
+        x: 720.3115690463286
+        y: 288
+      positionAbsolute:
+        x: 720.3115690463286
+        y: 288
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        dataset_ids:
+        - 6m3woQ2tk5WycmowCu6DWXHAxzInJ1BDQ2VB5RZMvFS3DRpg8Rszr24tQo6cHgqE
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        multiple_retrieval_config:
+          reranking_enable: true
+          reranking_mode: reranking_model
+          reranking_model:
+            model: BAAI/bge-reranker-v2-m3
+            provider: langgenius/huggingface_tei/huggingface_tei
+          score_threshold: null
+          top_k: 10
+        query_variable_selector:
+        - '1756884882562'
+        - text
+        retrieval_mode: multiple
+        selected: false
+        title: 检索相关法律法规
+        type: knowledge-retrieval
+      height: 90
+      id: '1756881287035'
+      parentId: '1756863291549'
+      position:
+        x: 1024.636008711956
+        y: 364.73678890143424
+      positionAbsolute:
+        x: 2557.724843257635
+        y: 1468.376870852842
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+      zIndex: 1002
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1756881287035'
+          - result
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        model:
+          completion_params:
+            temperature: 0.1
+          mode: chat
+          name: Qwen3-30B-A3B-Instruct-2507
+          provider: yangyaofei/vllm/vllm
+        prompt_template:
+        - id: 202e5e39-6fd4-46e3-9e9b-1d749f2d66f7
+          role: system
+          text: "【身份】\n\n你是一个专业的AI企业制度审查助手，具备深厚的公司治理、合规管理、标准化体系建设及法律合规知识背景。你的任务是根据用户上传的企业内部制度文件（如《人力资源管理办法》《安全生产管理制度》等），结合系统自动检索并提供的相关法律法规、行业标准、公司章程及其他关联制度文件，进行全面、系统、专业的合规性与有效性审查。\n\
+            \n【背景】\n1、当前企业为大型国有企业\n2、原制度文件被切分为多个段落，你看到的只是其中的一个段落，可能部分信息在当前段落并未展现出来。\n\
+            \n【要求】\n请以“推动企业依法治企、实现制度引领发展”为目标，围绕“三审核框架”与“三维度法审”，逐项分析制度文件在**结构、内容、程序、格式**等方面的合规性、适用性与可操作性，并生成一份结构清晰、依据充分、建议明确的审查结果。\n\
+            \n## 审核框架：\n### 审制度框架的“系统性”\n审查制度之间的关联性与层级关系：\n- 是否存在“上位制度”与“下位制度”的合理层级？（如《人力资源管理制度》→《招聘管理办法》→《面试实施细则》）\n\
+            - 下位制度是否服从上位制度？\n- 平行制度之间是否存在冲突或遗漏？（如财务报销制度与差旅管理制度对“住宿标准”规定不一）\n> 特别关注跨部门制度的协调性（如人力、财务、行政之间的权责划分）。\n\
+            \n### 审制度框架的“唯一性”\n审查是否存在：\n- 重复建设（多个制度规定同一事项）\n- 交叉管理（一事多规、标准不一）\n- “一事两标准”现象\n\
+            > 目标：每件事只有一个主责制度进行规范，避免执行混乱。\n\n## 审制度的“补充性”（是否还有地方需要补充）\n审查制度是否存在结构性缺失或管理空白，重点识别以下方面：\n\
+            - 是否缺少必要的管理流程（如宣贯、检查、修订）？\n- 是否明确主责部门、配合部门、监督部门？\n- 是否缺少执行保障措施（如奖惩、申诉、培训）？\n\
+            - 是否缺少应对风险的应急机制？\n- 是否缺少配套表单、记录或工具？\n- 是否遗漏法律法规要求的必备内容？\n\n## 审核维度：三大法律合规维度\n\
+            ### 1. 程序的合规性\n#### （1）决策程序合规\n- 制度的制定、修订、废止是否履行了必要的审批流程？\n- 不同类型制度对应的审批主体是否正确？\n\
+            \  - 《公司章程》→ 股东（大）会\n  - 重大管理制度 → 董事会\n  - 涉及员工切身利益的制度（如奖惩、考勤）→ 职工代表大会或全体职工讨论通过（《劳动合同法》第4条）\n\
+            - 是否留存民主程序记录（如会议纪要、签到表、公示证明）？\n#### （2）公示与告知合规\n- 涉及员工权利义务的制度是否已向全体员工公示？\n\
+            - 公示方式是否合法有效？（如OA公告、签字确认、培训记录）\n- 新员工入职时是否作为附件签署知悉？\n---\n### 2. 内容的正确性\n\
+            #### （1）合法性审查\n- 制度内容是否违反国家法律法规、强制性标准？\n  - 重点审查：劳动用工（工时、休假、解雇）、安全生产、环境保护、数据隐私（《个人信息保护法》）、反垄断等领域\n\
+            - 是否存在剥夺员工法定权利的条款？（如“自愿放弃社保”“加班不付加班费”）\n#### （2）一致性审查\n- 本制度与其他制度是否存在冲突？\n\
+            \  - 如《绩效管理办法》中“绩效不合格可解除合同” vs 《劳动合同法》第40条关于不能胜任工作的解除条件\n- 是否与《公司章程》《股东会议事规则》等顶层制度保持一致？\n\
+            #### （3）可执行性审查\n- 条款是否具体、可操作？避免“加强管理”“及时处理”等模糊表述\n- 是否明确责任部门、执行流程、时间节点、考核标准？\n\
+            - 是否具备现实可行性？（如要求“每日提交5份报告”是否合理）\n---\n### 3. 格式的严谨性\n#### （1）结构规范\n- 是否有明确的适用范围、解释权归属、生效日期、修订记录？\n\
+            #### （2）表述严谨\n- 避免语病、歧义、逻辑混乱\n- 避免重复或包含关系的条款（如“法人的分支机构”与“商业银行分支机构”并列）\n\
+            - 避免断句不当导致误解（如“国有公司、企业”中“企业”未限定为“国有”）\n#### （3）排版美观\n- 章节编号是否规范？（第一章 →\
+            \ 第一节 → 第一条 → （一）→ 1.）\n---\n【输出要求】\n1、审核结果按以下格式输出：\n**制度文件中存在问题的原句摘要**\n\
+            \ [具体原句内容]\n> 注意：`合同文件中存在问题的原句摘要`要以一个句子或者一个小段落为单元，不允许一次性输出多个段落或长段落，若有多句话或者多个小段落有问题，可以重复该结构，但不得超过5个，原句不允许省略，务必保证原句完整性！\n\
+            \n**问题点**\n[具体问题描述]\n\n**相关法律依据**\n> [法律1]\n\n> [法律2]\n\n**修改建议**\n[具体修改建议，不超过五条]\n\
+            \n**是否有需要补充的条款**\n[是/否及补充内容]\n（多个问题重复以上结构，每一个结构都不能少，每段的问题不超过5条！）\n\n注意：\n\
+            1、\n--问题点和修改建议需要加上序号，显得结构更加清晰。引用法律条文时，使用 > 符号开头，并独占一行，不同法律条文之间需空一行。\n\
+            --对于条款中遗漏或者建议补充的相关条款，若有就输出补充建议并说明理由(尽量精确简短),若无就直接输出无。\n--`制度文件中存在问题的原句摘要`务必要求原文准确，因为后续节点要根据原句进行检索对文章批注。\n\
+            > 注意：`合同文件中存在问题的原句摘要`要以一个句子或者一个小段落为单元，不允许一次性输出多个段落或长段落，若有多句话或者多个小段落有问题，可以重复该结构，但不得超过5个，原句不允许省略，务必保证原句完整性！\n\
+            \n2、输出结果要结构清晰、精简、标题醒目，只输出需要包含的点，其他话语均不要输出。\n\n3、审核可以适当的宽松，不是必须要审核出问题，若当前段落未发现风险或者问题就，直接输出该段落暂未发现问题风险点。\n\
+            \n4、务必要讲事实将依据，不可以随意捏造事实，否则会对用户的决策造成灾难性的损失！\n\n\n【提示】\n这是当前制度文件的名称：{{#1756874590481.result#}}；\n\
+            这是当前制度文件的部分段落：{{#1756863324872.output#}}；\n这是检索到的相关法律条文：{{#context#}}；\n\
+            这是用户关注的侧重点：{{#1756713121715.focus_point#}}；\n> 如果有特别关注点可以重点向关注点的地方审查"
+        selected: false
+        structured_output:
+          schema:
+            additionalProperties: false
+            properties:
+              find_problem:
+                description: 发现的问题
+                type: string
+              legal_basis:
+                description: 相关法律依据
+                type: string
+              modification_suggestions:
+                description: 修改建议
+                type: string
+              original text:
+                description: 合同原文的问题句摘要
+                type: string
+              risk_level:
+                description: 风险等级
+                type: string
+              summary:
+                description: 这个字段为总结，若未发现风险，也要在这个字段输出未发现风险
+                type: string
+            required:
+            - summary
+            type: object
+        structured_output_enabled: false
+        title: 制度审查智能体
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 88
+      id: '1756881343525'
+      parentId: '1756863291549'
+      position:
+        x: 1317.0771260260412
+        y: 362.47668595949426
+      positionAbsolute:
+        x: 2850.16596057172
+        y: 1466.1167679109021
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+      zIndex: 1002
+    - data:
+        desc: ''
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1756713121715'
+          - focus_point
+          variable_selector:
+          - conversation
+          - focus
+          write_mode: over-write
+        selected: false
+        title: 变量赋值 2
+        type: assigner
+        version: '2'
+      height: 86
+      id: '1756882355075'
+      position:
+        x: 695.9991742456167
+        y: 176
+      positionAbsolute:
+        x: 695.9991742456167
+        y: 176
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        selected: false
+        template: "当前是{{ output }}\r\n这是该段落审查的结果{{ standard }};"
+        title: 审查结果模板
+        type: template-transform
+        variables:
+        - value_selector:
+          - '1756867022461'
+          - text
+          variable: standard
+        - value_selector:
+          - '1756863324872'
+          - output
+          value_type: string
+          variable: output
+      height: 52
+      id: '1756883554392'
+      parentId: '1756863291549'
+      position:
+        x: 2651.845729048407
+        y: 65
+      positionAbsolute:
+        x: 4184.934563594086
+        y: 1168.6400819514079
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+      zIndex: 1002
+    - data:
+        answer: "\n**当前是{{#1756863324872.output#}}**\n******\n\n<div style=\"font-family:\
+          \ 'Segoe UI', Arial, sans-serif; font-size: 14px; color: #004085; background-color:\
+          \ #e2f0fb; padding: 8px 12px; border-radius: 4px; border-left: 4px solid\
+          \ #1e88e5; margin-top: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);\">\U0001F4D1\
+          \ 该合同段落的审查结果：</div>\n\n{{#1756867022461.text#}}\n\n******\n\n<div style=\"\
+          \n  display: flex;\n  align-items: center;\n  justify-content: center;\n\
+          \  margin: 30px 0;\n  font-size: 20px;\n  color: #495057;\n\">\n  <div style=\"\
+          \n    flex: 1;\n    height: 2px;\n    background: linear-gradient(to right,\
+          \ transparent, #4e54c8, #8f94fb, #4e54c8, transparent);\n  \"></div>\n \
+          \ <div style=\"\n    margin: 0 15px;\n    transform: rotate(45deg);\n  \
+          \  color: #4e54c8;\n    font-size: 24px;\n    font-weight: bold;\n  \">◆</div>\n\
+          \  <div style=\"\n    flex: 1;\n    height: 2px;\n    background: linear-gradient(to\
+          \ right, transparent, #4e54c8, #8f94fb, #4e54c8, transparent);\n  \"></div>\n\
+          </div>\n"
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        selected: false
+        title: 直接回复 3
+        type: answer
+        variables: []
+      height: 490
+      id: '1756884192361'
+      parentId: '1756863291549'
+      position:
+        x: 2351.828577761323
+        y: 65
+      positionAbsolute:
+        x: 3884.9174123070015
+        y: 1168.6400819514079
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+      zIndex: 1002
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1756863324872'
+          - output
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        model:
+          completion_params:
+            temperature: 0.1
+          mode: chat
+          name: Qwen3-30B-A3B-Instruct-2507
+          provider: yangyaofei/vllm/vllm
+        prompt_template:
+        - id: d904ef04-9b17-42e4-a1fe-ac9d491d87cf
+          role: system
+          text: '【身份】
+
+            你是一个段落关键词提取器兼段落结构总结器，主要有两个任务，一是负责对段落中的内容进行提取出关键词，以便后续节点通过关键词进行相关知识库的检索。二是负责对当前段落进行目录式的总结，以便后续节点进行全文总结。
+
+            【背景】
+
+            你是文件审核的其中一个节点，由于文件过长，审核文件被拆分成了多个段落，你接收到的只是其中一个段落，所以现在需要对每个段落进行总结，以便后续节点会对你总结的段落进行拼接，形成全文的总结并对全文结构进行审核是否有结构缺失的地方，这样就不会因为文章过长而导致超过文章读取上限。
+
+            【要求】
+
+
+            关键词要求：
+
+            1、要对整个段落内容提取，关键词要全面;
+
+            2、检索的关键词不超过10个，不宜过多;
+
+            段落总结要求：
+
+            1、尽量概括该段落的目录结构，有哪些点
+
+            2、每个段落总结概括尽量不要超过200字
+
+            输出要求：
+
+            严格按照以下要求的json格式输出：
+
+            {
+
+              "type": "object",
+
+              "properties": {
+
+                "keyword": {
+
+                  "type": "string",
+
+                  "description": "提取的关键词"
+
+                },
+
+                "paragraph_summary": {
+
+                  "type": "string",
+
+                  "description": "段落总结"
+
+                }
+
+              },
+
+              "required": [
+
+                "keyword",
+
+                "paragraph_summary"
+
+              ],
+
+              "additionalProperties": false
+
+            }
+
+
+
+            【提示】
+
+            这是：{{#context#}}'
+        selected: false
+        structured_output:
+          schema:
+            additionalProperties: false
+            properties:
+              keyword:
+                description: 提取的关键词
+                type: string
+              paragraph_summary:
+                description: 段落总结
+                type: string
+            required:
+            - keyword
+            - paragraph_summary
+            type: object
+        structured_output_enabled: true
+        title: 段落总结与关键词提取
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 88
+      id: '1756884882562'
+      parentId: '1756863291549'
+      position:
+        x: 411.18245741271994
+        y: 149.44850628946506
+      positionAbsolute:
+        x: 1944.2712919583987
+        y: 1253.088588240873
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+      zIndex: 1002
+    - data:
+        answer: "\n\n**当前是{{#1756863324872.output#}}**\n\n******\n<div style=\"font-family:\
+          \ 'Segoe UI', Arial, sans-serif; font-size: 14px; color: #2c0e3a; background-color:\
+          \ #f0e6f5; padding: 8px 12px; border-radius: 4px; border-left: 4px solid\
+          \ #7e57c2; margin-top: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);\">⚖️\
+          \ 该段落的审核结果</div>\n\n{{#1756881343525.text#}}\n\n<div style=\"\n  display:\
+          \ flex;\n  align-items: center;\n  justify-content: center;\n  margin: 30px\
+          \ 0;\n  font-size: 20px;\n  color: #495057;\n\">\n  <div style=\"\n    flex:\
+          \ 1;\n    height: 2px;\n    background: linear-gradient(to right, transparent,\
+          \ #4e54c8, #8f94fb, #4e54c8, transparent);\n  \"></div>\n  <div style=\"\
+          \n    margin: 0 15px;\n    transform: rotate(45deg);\n    color: #4e54c8;\n\
+          \    font-size: 24px;\n    font-weight: bold;\n  \">◆</div>\n  <div style=\"\
+          \n    flex: 1;\n    height: 2px;\n    background: linear-gradient(to right,\
+          \ transparent, #4e54c8, #8f94fb, #4e54c8, transparent);\n  \"></div>\n</div>\n"
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        selected: false
+        title: 直接回复 4
+        type: answer
+        variables: []
+      height: 490
+      id: '1756886123000'
+      parentId: '1756863291549'
+      position:
+        x: 1622.3713753204179
+        y: 360.74493023322634
+      positionAbsolute:
+        x: 3155.4602098660966
+        y: 1464.3850121846342
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+      zIndex: 1002
+    - data:
+        desc: ''
+        is_team_authorization: true
+        output_schema: null
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: The word file to be chunked
+            ja_JP: The word file to be chunked
+            pt_BR: The word file to be chunked
+            zh_Hans: 想要进行切分的word文件
+          label:
+            en_US: File
+            ja_JP: File
+            pt_BR: File
+            zh_Hans: word文件
+          llm_description: 用于对word分段
+          max: null
+          min: null
+          name: word_content
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: file
+        - auto_generate: null
+          default: 30
+          form: llm
+          human_description:
+            en_US: The number of chunks (Maximum 30 due to the iteration node supporting
+              a maximum of 30 iteration objects)
+            ja_JP: The number of chunks (Maximum 30 due to the iteration node supporting
+              a maximum of 30 iteration objects)
+            pt_BR: The number of chunks (Maximum 30 due to the iteration node supporting
+              a maximum of 30 iteration objects)
+            zh_Hans: 分段的数量(由于迭代节点最多只能有30个迭代对象，所以最大的分段数是30)
+          label:
+            en_US: Number of Chunks (Maximum 30, Optional)
+            ja_JP: Number of Chunks (Maximum 30, Optional)
+            pt_BR: Number of Chunks (Maximum 30, Optional)
+            zh_Hans: 分段数量(最多30个,非必填)
+          llm_description: 用于对word分段
+          max: null
+          min: null
+          name: chunk_num
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: number
+        params:
+          chunk_num: ''
+          word_content: ''
+        provider_id: czfsss/word-tools/word-tools
+        provider_name: czfsss/word-tools/word-tools
+        provider_type: builtin
+        selected: false
+        title: word-chunk(原)
+        tool_configurations: {}
+        tool_description: 用于对word分段,word格式需要规范标准，针对合同类、法律类文档效果较好
+        tool_label: word-chunk
+        tool_name: word-chunk
+        tool_parameters:
+          chunk_num:
+            type: constant
+            value: 10
+          docx_type:
+            type: constant
+            value: contract
+          word_content:
+            type: variable
+            value:
+            - sys
+            - files
+        type: tool
+        version: '2'
+      height: 84
+      id: '1756949868971'
+      position:
+        x: 1393.8801569227846
+        y: 294.96440450636896
+      positionAbsolute:
+        x: 1393.8801569227846
+        y: 294.96440450636896
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        desc: ''
+        is_team_authorization: true
+        output_schema: null
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: PDF file to be converted
+            ja_JP: PDF file to be converted
+            pt_BR: PDF file to be converted
+            zh_Hans: 转换的pdf文件
+          label:
+            en_US: File
+            ja_JP: File
+            pt_BR: File
+            zh_Hans: pdf文件
+          llm_description: 转换的pdf文件
+          max: null
+          min: null
+          name: pdf_content
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: file
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: 'Optional custom output file name. If not provided, will use the
+              original PDF filename.
+
+              The filename suffix (.docx) is not required.
+
+              '
+            ja_JP: 'Optional custom output file name. If not provided, will use the
+              original PDF filename.
+
+              The filename suffix (.docx) is not required.
+
+              '
+            pt_BR: 'Optional custom output file name. If not provided, will use the
+              original PDF filename.
+
+              The filename suffix (.docx) is not required.
+
+              '
+            zh_Hans: '可选的自定义输出文件名。如果未提供，将使用原始PDF文件名。
+
+              后缀名(.docx)无需指定。
+
+              '
+          label:
+            en_US: Output Filename
+            ja_JP: Output Filename
+            pt_BR: Output Filename
+            zh_Hans: 输出文件名
+          llm_description: 可选的自定义输出文件名，后缀名无需指定
+          max: null
+          min: null
+          name: output_filename
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        params:
+          output_filename: ''
+          pdf_content: ''
+        provider_id: czfsss/word-tools/word-tools
+        provider_name: czfsss/word-tools/word-tools
+        provider_type: builtin
+        selected: false
+        title: pdf_to_word
+        tool_configurations: {}
+        tool_description: 用于将pdf转换为word文档，如果pdf文档较大，转换时间会很长,请耐心等待
+        tool_label: pdf_to_word
+        tool_name: pdf_to_word
+        tool_parameters:
+          output_filename:
+            type: mixed
+            value: '{{#1756874590481.result#}}'
+          pdf_content:
+            type: variable
+            value:
+            - sys
+            - files
+        type: tool
+        version: '2'
+      height: 84
+      id: '1756949890518'
+      position:
+        x: 1703.3875989009114
+        y: 423.1877078861457
+      positionAbsolute:
+        x: 1703.3875989009114
+        y: 423.1877078861457
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        desc: ''
+        is_team_authorization: true
+        output_schema: null
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: The word file to be chunked
+            ja_JP: The word file to be chunked
+            pt_BR: The word file to be chunked
+            zh_Hans: 想要进行切分的word文件
+          label:
+            en_US: File
+            ja_JP: File
+            pt_BR: File
+            zh_Hans: word文件
+          llm_description: 用于对word分段
+          max: null
+          min: null
+          name: word_content
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: file
+        - auto_generate: null
+          default: 30
+          form: llm
+          human_description:
+            en_US: The number of chunks (Maximum 30 due to the iteration node supporting
+              a maximum of 30 iteration objects)
+            ja_JP: The number of chunks (Maximum 30 due to the iteration node supporting
+              a maximum of 30 iteration objects)
+            pt_BR: The number of chunks (Maximum 30 due to the iteration node supporting
+              a maximum of 30 iteration objects)
+            zh_Hans: 分段的数量(由于迭代节点最多只能有30个迭代对象，所以最大的分段数是30)
+          label:
+            en_US: Number of Chunks (Maximum 30, Optional)
+            ja_JP: Number of Chunks (Maximum 30, Optional)
+            pt_BR: Number of Chunks (Maximum 30, Optional)
+            zh_Hans: 分段数量(最多30个,非必填)
+          llm_description: 用于对word分段
+          max: null
+          min: null
+          name: chunk_num
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: number
+        params:
+          chunk_num: ''
+          word_content: ''
+        provider_id: czfsss/word-tools/word-tools
+        provider_name: czfsss/word-tools/word-tools
+        provider_type: builtin
+        selected: false
+        title: word-chunk
+        tool_configurations: {}
+        tool_description: 用于对word分段,word格式需要规范标准，针对合同类、法律类文档效果较好
+        tool_label: word-chunk
+        tool_name: word-chunk
+        tool_parameters:
+          chunk_num:
+            type: constant
+            value: 10
+          docx_type:
+            type: constant
+            value: general
+          word_content:
+            type: variable
+            value:
+            - '1756949890518'
+            - files
+        type: tool
+        version: '2'
+      height: 84
+      id: '1756949907665'
+      position:
+        x: 2008.5420649460493
+        y: 423.1877078861457
+      positionAbsolute:
+        x: 2008.5420649460493
+        y: 423.1877078861457
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        desc: ''
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1756949868971'
+          - json
+          variable_selector:
+          - conversation
+          - chunk_result
+          write_mode: over-write
+        selected: false
+        title: 分块结果赋值
+        type: assigner
+        version: '2'
+      height: 86
+      id: '1756949997919'
+      position:
+        x: 1703.3875989009114
+        y: 294.96440450636896
+      positionAbsolute:
+        x: 1703.3875989009114
+        y: 294.96440450636896
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        desc: ''
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1756949907665'
+          - json
+          variable_selector:
+          - conversation
+          - chunk_result
+          write_mode: over-write
+        selected: false
+        title: 分块结果赋值
+        type: assigner
+        version: '2'
+      height: 86
+      id: '1756950016181'
+      position:
+        x: 2325.902861739708
+        y: 423.1877078861457
+      positionAbsolute:
+        x: 2325.902861739708
+        y: 423.1877078861457
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        answer: '{{#1756871458847.text#}}'
+        desc: ''
+        selected: false
+        title: 直接回复 5
+        type: answer
+        variables: []
+      height: 103
+      id: '1756950076931'
+      position:
+        x: 1713.4877171674698
+        y: 773.0099011095841
+      positionAbsolute:
+        x: 1713.4877171674698
+        y: 773.0099011095841
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        selected: false
+        template: "**当前是{{ output }}**\r\n\r\n这是该段落根据相关法律条文审查的结果:\r\n{{ law }}\r\n\
+          \r\n***\r\n"
+        title: 审查结果模板
+        type: template-transform
+        variables:
+        - value_selector:
+          - '1756863324872'
+          - output
+          value_type: string
+          variable: output
+        - value_selector:
+          - '1756881343525'
+          - text
+          value_type: string
+          variable: law
+      height: 52
+      id: '1756955291364'
+      parentId: '1756863291549'
+      position:
+        x: 1946.1032220500388
+        y: 363.9055321360063
+      positionAbsolute:
+        x: 3479.1920565957175
+        y: 1467.5456140874142
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+      zIndex: 1002
+    - data:
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        items:
+        - input_type: variable
+          operation: append
+          value:
+          - '1756955291364'
+          - output
+          variable_selector:
+          - conversation
+          - chunk_analysis
+          write_mode: over-write
+        - input_type: variable
+          operation: append
+          value:
+          - '1757055047517'
+          - output
+          variable_selector:
+          - conversation
+          - summary_provisions
+          write_mode: over-write
+        - input_type: variable
+          operation: append
+          value:
+          - '1757054270193'
+          - problems
+          variable_selector:
+          - conversation
+          - comment
+          write_mode: over-write
+        iteration_id: '1756863291549'
+        selected: false
+        title: 变量赋值 5
+        type: assigner
+        version: '2'
+      height: 142
+      id: '1756955364534'
+      parentId: '1756863291549'
+      position:
+        x: 2343.0284066987997
+        y: 613.7678338169578
+      positionAbsolute:
+        x: 3876.1172412444785
+        y: 1717.4079157683657
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+      zIndex: 1002
+    - data:
+        desc: ''
+        is_team_authorization: true
+        output_schema: null
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Markdown text
+            ja_JP: Markdown text
+            pt_BR: Markdown text
+            zh_Hans: Markdown格式文本
+          label:
+            en_US: Markdown text
+            ja_JP: Markdown text
+            pt_BR: Markdown text
+            zh_Hans: Markdown格式文本
+          llm_description: ''
+          max: null
+          min: null
+          name: md_text
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Optional custom output file name, and the filename suffix is not
+              required.
+            ja_JP: Optional custom output file name, and the filename suffix is not
+              required.
+            pt_BR: Optional custom output file name, and the filename suffix is not
+              required.
+            zh_Hans: 可选的自定义输出文件名，后缀名无需指定
+          label:
+            en_US: Output Filename
+            ja_JP: Output Filename
+            pt_BR: Output Filename
+            zh_Hans: 输出文件名
+          llm_description: ''
+          max: null
+          min: null
+          name: output_filename
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        params:
+          md_text: ''
+          output_filename: ''
+        provider_id: bowenliang123/md_exporter/md_exporter
+        provider_name: bowenliang123/md_exporter/md_exporter
+        provider_type: builtin
+        selected: false
+        title: Markdown 转 DOCX 文件
+        tool_configurations: {}
+        tool_description: 将 Markdown 转换为 DOCX 文件的工具
+        tool_label: Markdown 转 DOCX 文件
+        tool_name: md_to_docx
+        tool_parameters:
+          md_text:
+            type: mixed
+            value: '{{#1756955563587.result#}}'
+          output_filename:
+            type: mixed
+            value: '{{#1756874590481.result#}}-审核稿'
+        type: tool
+        version: '2'
+      height: 84
+      id: '1756955401528'
+      position:
+        x: 6131.425475299189
+        y: 1457.5778402815963
+      positionAbsolute:
+        x: 6131.425475299189
+        y: 1457.5778402815963
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        code: "def main(chunks_result, text) -> dict:  # 添加text参数\n    result = '\\\
+          n'.join(chunks_result) + text  # 合并操作一步完成\n    return {\"result\": result}"
+        code_language: python3
+        desc: ''
+        outputs:
+          result:
+            children: null
+            type: string
+        selected: false
+        title: 拼接完整报告
+        type: code
+        variables:
+        - value_selector:
+          - conversation
+          - chunk_analysis
+          value_type: array[string]
+          variable: chunks_result
+        - value_selector:
+          - '1757055611575'
+          - text
+          value_type: string
+          variable: text
+      height: 52
+      id: '1756955563587'
+      position:
+        x: 6109.452939269682
+        y: 1348.3347311878017
+      positionAbsolute:
+        x: 6109.452939269682
+        y: 1348.3347311878017
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        answer: '
+
+          <div style="font-family: ''Segoe UI'', Arial, sans-serif; font-size: 14px;
+          color: #343a40; background-color: #e9ecef; padding: 8px 12px; border-radius:
+          4px; border-left: 4px solid #6c757d; margin-top: 12px; box-shadow: 0 2px
+          4px rgba(0,0,0,0.1);">审核完毕！📝 审核稿如下：</div>
+
+
+          {{#1756955401528.files#}}
+
+
+          <div style="font-family: ''Segoe UI'', Arial, sans-serif; font-size: 14px;
+          color: #0c5460; background-color: #d1ecf1; padding: 10px 15px; border-radius:
+          4px; border-left: 4px solid #0aa2c0; margin-top: 15px; box-shadow: 0 2px
+          6px rgba(0,0,0,0.1);">🔄📝 正在添加审核批注，请稍后...</div>
+
+          '
+        desc: ''
+        selected: false
+        title: 直接回复 5
+        type: answer
+        variables: []
+      height: 359
+      id: '1756955671972'
+      position:
+        x: 6042.095440295023
+        y: 1587.7475748514291
+      positionAbsolute:
+        x: 6042.095440295023
+        y: 1587.7475748514291
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        answer: '
+
+          <div style="font-family: ''Segoe UI'', Arial, sans-serif; font-size: 14px;
+          color: #856404; background-color: #fff3cd; padding: 8px 12px; border-radius:
+          4px; border-left: 4px solid #ffc107; margin-top: 12px; box-shadow: 0 2px
+          4px rgba(0,0,0,0.1);">📄⏳ 正在解析pdf中，请稍后...</div>
+
+          '
+        desc: ''
+        selected: false
+        title: 直接回复 6
+        type: answer
+        variables: []
+      height: 212
+      id: '1756965914788'
+      position:
+        x: 1393.8801569227846
+        y: 423.1877078861457
+      positionAbsolute:
+        x: 1393.8801569227846
+        y: 423.1877078861457
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        answer: '
+
+          <div style="font-family: ''Segoe UI'', Arial, sans-serif; font-size: 14px;
+          color: #155724; background-color: #d4edda; padding: 8px 12px; border-radius:
+          4px; border-left: 4px solid #28a745; margin-top: 8px; box-shadow: 0 2px
+          4px rgba(0,0,0,0.1);">✅ 转换成功</div>
+
+          '
+        desc: ''
+        selected: false
+        title: 直接回复 7
+        type: answer
+        variables: []
+      height: 212
+      id: '1756966027192'
+      position:
+        x: 2629.7891103493957
+        y: 423.1877078861457
+      positionAbsolute:
+        x: 2629.7891103493957
+        y: 423.1877078861457
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        desc: ''
+        is_team_authorization: true
+        output_schema: null
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: The word file to be chunked
+            ja_JP: The word file to be chunked
+            pt_BR: The word file to be chunked
+            zh_Hans: 想要进行切分的word文件
+          label:
+            en_US: File
+            ja_JP: File
+            pt_BR: File
+            zh_Hans: word文件
+          llm_description: 用于对word分段
+          max: null
+          min: null
+          name: word_content
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: file
+        - auto_generate: null
+          default: 30
+          form: llm
+          human_description:
+            en_US: The number of chunks (Maximum 30 due to the iteration node supporting
+              a maximum of 30 iteration objects)
+            ja_JP: The number of chunks (Maximum 30 due to the iteration node supporting
+              a maximum of 30 iteration objects)
+            pt_BR: The number of chunks (Maximum 30 due to the iteration node supporting
+              a maximum of 30 iteration objects)
+            zh_Hans: 分段的数量(由于迭代节点最多只能有30个迭代对象，所以最大的分段数是30)
+          label:
+            en_US: Number of Chunks (Maximum 30, Optional)
+            ja_JP: Number of Chunks (Maximum 30, Optional)
+            pt_BR: Number of Chunks (Maximum 30, Optional)
+            zh_Hans: 分段数量(最多30个,非必填)
+          llm_description: 用于对word分段
+          max: null
+          min: null
+          name: chunk_num
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: number
+        - auto_generate: null
+          default: general
+          form: llm
+          human_description:
+            en_US: The type of the docx file to be chunked
+            ja_JP: The type of the docx file to be chunked
+            pt_BR: The type of the docx file to be chunked
+            zh_Hans: 想要进行切分的docx文件类型
+          label:
+            en_US: Docx Type
+            ja_JP: Docx Type
+            pt_BR: Docx Type
+            zh_Hans: docx文件类型
+          llm_description: 想要进行切分的docx文件类型
+          max: null
+          min: null
+          name: docx_type
+          options:
+          - icon: ''
+            label:
+              en_US: General
+              ja_JP: General
+              pt_BR: General
+              zh_Hans: 通用
+            value: general
+          - icon: ''
+            label:
+              en_US: Contract
+              ja_JP: Contract
+              pt_BR: Contract
+              zh_Hans: 合同类文件
+            value: contract
+          - icon: ''
+            label:
+              en_US: Policy
+              ja_JP: Policy
+              pt_BR: Policy
+              zh_Hans: 制度类文件
+            value: policy
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: select
+        params:
+          chunk_num: ''
+          docx_type: ''
+          word_content: ''
+        provider_id: czfsss/word-tools/word-tools
+        provider_name: czfsss/word-tools/word-tools
+        provider_type: builtin
+        selected: false
+        title: word-chunk(制度原)
+        tool_configurations: {}
+        tool_description: 用于对word分段,word格式需要规范标准，针对合同类、法律类文档效果较好
+        tool_label: word-chunk
+        tool_name: word-chunk
+        tool_parameters:
+          chunk_num:
+            type: constant
+            value: 10
+          docx_type:
+            type: constant
+            value: policy
+          word_content:
+            type: variable
+            value:
+            - sys
+            - files
+        type: tool
+        version: '2'
+      height: 84
+      id: '1756975292823'
+      position:
+        x: 1393.8801569227846
+        y: 648.949559960997
+      positionAbsolute:
+        x: 1393.8801569227846
+        y: 648.949559960997
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        desc: ''
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1756975292823'
+          - json
+          variable_selector:
+          - conversation
+          - chunk_result
+          write_mode: over-write
+        selected: false
+        title: 分块结果赋值 (1)
+        type: assigner
+        version: '2'
+      height: 86
+      id: '17569753480200'
+      position:
+        x: 1713.4877171674698
+        y: 648.949559960997
+      positionAbsolute:
+        x: 1713.4877171674698
+        y: 648.949559960997
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        selected: false
+        template: '{{ result }},{{ keyword }}'
+        title: 文件合同关键词检索
+        type: template-transform
+        variables:
+        - value_selector:
+          - '1756884882562'
+          - structured_output
+          - keyword
+          value_type: object
+          variable: keyword
+        - value_selector:
+          - '1756874590481'
+          - result
+          value_type: string
+          variable: result
+      height: 52
+      id: '1757044513623'
+      parentId: '1756863291549'
+      position:
+        x: 430.742576016004
+        y: 276.12126572366265
+      positionAbsolute:
+        x: 1963.8314105616828
+        y: 1379.7613476750705
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+      zIndex: 1002
+    - data:
+        code: "import re\n\ndef main(text):\n    # 匹配所有问题块（从\"制度文件中存在问题的原句摘要\"到下一个同类标题前）\n\
+          \    problem_blocks = re.findall(\n        r'制度文件中存在问题的原句摘要\\b.*?(?=\\n\\\
+          s*(?:\\*\\*)?制度文件中存在问题的原句摘要\\b|\\Z)',\n        text,\n        re.DOTALL\n\
+          \    )\n    \n    result_dict = {}\n    \n    for block in problem_blocks:\n\
+          \        # 提取原句摘要（从标题后到问题点前）\n        origin_match = re.search(\n      \
+          \      r'制度文件中存在问题的原句摘要\\b[^\\n]*(.*?)(?=\\n\\s*(?:\\*\\*)?问题点\\b)',\n \
+          \           block,\n            re.DOTALL\n        )\n        \n       \
+          \ # 提取问题点（从标题后到相关法律依据前）\n        problem_match = re.search(\n          \
+          \  r'问题点\\b[^\\n]*(.*?)(?=\\n\\s*(?:\\*\\*)?相关法律依据\\b)',\n            block,\n\
+          \            re.DOTALL\n        )\n        \n        # 提取修改建议（从标题后到是否有需要补充的条款前）\n\
+          \        suggestion_match = re.search(\n            r'修改建议\\b[^\\n]*(.*?)(?=\\\
+          n\\s*(?:\\*\\*)?是否有需要补充的条款\\b)',\n            block,\n            re.DOTALL\n\
+          \        )\n        \n        if origin_match:\n            origin = origin_match.group(1).strip()\n\
+          \            problem = problem_match.group(1).strip() if problem_match else\
+          \ \"未找到问题点\"\n            suggestion = suggestion_match.group(1).strip()\
+          \ if suggestion_match else \"未找到修改建议\"\n            \n            # 拼接问题点和修改建议作为value\n\
+          \            result_dict[origin] = f\"问题点:\\n{problem}\\n\\n修改建议:\\n{suggestion}\"\
+          \n    \n    # 提取全局的补充条款\n    additional_match = re.search(\n        r'是否有需要补充的条款\\\
+          b[^\\n]*(.*?)(?=\\n\\*\\*\\*合同文件中存在问题的原句摘要\\b|\\Z)',\n        text,\n  \
+          \      re.DOTALL\n    )\n    \n    return {\n        \"problems\": result_dict,\n\
+          \        \"additional_clauses\": additional_match.group(1).strip() if additional_match\
+          \ else \"\"\n    }"
+        code_language: python3
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        outputs:
+          additional_clauses:
+            children: null
+            type: string
+          problems:
+            children: null
+            type: object
+        selected: false
+        title: 参数提取
+        type: code
+        variables:
+        - value_selector:
+          - '1756955291364'
+          - output
+          value_type: string
+          variable: text
+      height: 52
+      id: '1757054270193'
+      parentId: '1756863291549'
+      position:
+        x: 1971.6452398176334
+        y: 452.3031553996409
+      positionAbsolute:
+        x: 3504.734074363312
+        y: 1555.9432373510488
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+      zIndex: 1002
+    - data:
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        selected: false
+        template: "这是第{{ chunk.keys() | first }}个段落的总结: \r\n{{ summary }}\r\n这是对应的审核补充建议：\r\
+          \n{{ add_provisions }}"
+        title: 段落总结合并补充建议
+        type: template-transform
+        variables:
+        - value_selector:
+          - '1756884882562'
+          - structured_output
+          - paragraph_summary
+          value_type: object
+          variable: summary
+        - value_selector:
+          - '1757054270193'
+          - additional_clauses
+          value_type: string
+          variable: add_provisions
+        - value_selector:
+          - '1756863291549'
+          - item
+          value_type: object
+          variable: chunk
+      height: 52
+      id: '1757055047517'
+      parentId: '1756863291549'
+      position:
+        x: 1993.6899739248615
+        y: 567.3081336391608
+      positionAbsolute:
+        x: 3526.7788084705403
+        y: 1670.9482155905687
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+      zIndex: 1002
+    - data:
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        selected: false
+        template: "这是第{{ chunk.keys() | first }}个段落的总结: \r\n{{ summary }}\r\n这是对应的合同审核补充建议：\r\
+          \n{{ add_provisions_1 }}\r\n"
+        title: 段落总结合并补充建议
+        type: template-transform
+        variables:
+        - value_selector:
+          - '1756863291549'
+          - item
+          value_type: object
+          variable: chunk
+        - value_selector:
+          - '1756884882562'
+          - structured_output
+          - paragraph_summary
+          value_type: object
+          variable: summary
+        - value_selector:
+          - '1757058213567'
+          - additional_clauses
+          value_type: string
+          variable: add_provisions_1
+      height: 52
+      id: '1757055420766'
+      parentId: '1756863291549'
+      position:
+        x: 2695.663613733525
+        y: 143.4242185982157
+      positionAbsolute:
+        x: 4228.752448279203
+        y: 1247.0643005496236
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+      zIndex: 1002
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - conversation
+          - summary_provisions
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.1
+          mode: chat
+          name: Qwen3-30B-A3B-Instruct-2507
+          provider: yangyaofei/vllm/vllm
+        prompt_template:
+        - id: 82114d98-7d8d-4870-b7cf-16ab961a8f32
+          role: system
+          text: "【角色设定】\n你是企业治理领域的“结构总审专家”，具备深厚的标准化体系建设、合规架构设计及组织治理经验。你擅长从系统性、完整性、层级性和闭环性四个维度，对正式发布的规范性文件（包括但不限于《管理制度》《操作规程》《合作协议》《标准合同》等）进行结构性顶层设计审查。\n\
+            你的任务是：基于系统提供的【各段落内容总结摘要】与【各段落初步审核建议】，重构整份文件的逻辑骨架，识别结构性缺陷、逻辑断层或缺失模块，提出可落地的结构优化建议。\n\
+            你无法看到原始全文，但已获得按章节/条款切分后的段落总结信息。请不要重复局部问题，而是聚焦于“结构层面的顶层设计问题”，判断是否存在结构性缺陷、逻辑断层或应补充的关键模块。\n\
+            【审查对象范围】\n适用文件类型：\n制度类：如《XX管理制度》《XX管理办法》《XX实施细则》\n合同类：如《服务合同》《采购协议》《战略合作框架协议》《劳动合同》\n\
+            【核心审查维度】\n请围绕以下四个维度展开分析：\n一、整体结构完整性（是否“缺胳膊少腿”？）\n判断文件是否包含其类型应有的核心结构要素：\n\
+            ▶ 制度类必备模块：\n总则（目的、依据、适用范围、基本原则）\n管理职责（主责部门、配合方、监督机制）\n管理流程（事前→事中→事后闭环）\n\
+            支持机制（检查、考核、奖惩、申诉）\n附则（解释权、生效日期、修订记录）\n▶ 合同类必备模块：\n合同主体（名称、资质、联系方式）\n标的与范围（服务/产品描述、数量质量标准）\n\
+            权利义务（双方责任划分清晰）\n履行机制（交付、验收、付款、变更）\n风险控制（违约责任、不可抗力、争议解决）\n终止与解除条件\n其他条款（保密、知识产权、通知方式、法律适用）\n\
+            若任一关键模块缺失，请明确指出。\n二、逻辑层次与结构合理性（是否“上下颠倒”或“错位嵌套”？）\n审查文件层级结构是否符合“总纲 → 规定\
+            \ → 办法 → 细则”或“框架 → 条款 → 附件”的递进逻辑：\n是否存在下位内容前置？（如在总则中详述操作细则）\n是否出现并列关系误列为隶属关系？（如将《培训协议》作为《劳动合同》子条款）\n\
+            章节排序是否符合业务/履约流程顺序？（如“签约”应在“履行”之前，“验收”应在“付款”之前）\n三、结构性重复或空白（是否“重复建设”或“一片空白”？）\n\
+            识别结构层面的问题：\n1、多个章节重复规定同一事项（如“保密义务”在总则和专项条款中重复）\n2、存在空标题章节或仅有原则性表述而无实质内容（如“第五章\
+            \ 监督管理”无具体措施）\n四、建议补充的结构内容（主动“查漏补缺”）\n综合判断后，提出应新增或强化的结构化要素。\n\n【输出格式要求】\n\
+            请以如下结构生成最终的结构审查报告：\n规范性文件结构审查报告（全局视角）\n一、整体结构还原  \n（根据各段落总结信息，还原当前文件的结构框架，列出主要章节及其功能定位）\n\
+            二、结构完整性评估 与合理性分析\n（对照制度/合同类型的核心模块清单，逐项评估完整性，标注缺失项，分析结构是否合理）\n三、建议补充的结构内容与优化建议\n\
+            【注意事项】\n1、不得重复各段落已指出的语言表达、用词不当等细节问题；\n2、聚焦结构性、系统性、完整性层面的顶层设计问题；\n3、所有建议必须具备现实可行性，避免空泛术语；\n\
+            4、报告力求精炼，突出重点，内容不要太多，精简一点。\n5、结构审核可以适当宽松，若整体结构没有太大问题，直接输出文件结构暂未发现问题。\n\
+            \n【提示】\n这是当前文件的名称：{{#1756874590481.result#}};\n这是当前文件各段落的初步审核的补充建议：{{#conversation.summary_provisions#}}"
+        selected: false
+        title: 审查文章结构智能体
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 88
+      id: '1757055611575'
+      position:
+        x: 5460.067097566277
+        y: 1041.9884059184728
+      positionAbsolute:
+        x: 5460.067097566277
+        y: 1041.9884059184728
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        answer: '
+
+          <div style="font-family: ''Segoe UI'', Arial, sans-serif; font-size: 15px;
+          color: #004085; background-color: #e2f0fb; padding: 10px 15px; border-radius:
+          4px; border-left: 4px solid #1e88e5; margin-top: 15px; box-shadow: 0 2px
+          6px rgba(0,0,0,0.1); font-weight: bold;">📋 各段落审核结束，以下是整体文章结构的审核：</div>
+
+          '
+        desc: ''
+        selected: false
+        title: 直接回复 9
+        type: answer
+        variables: []
+      height: 228
+      id: '1757057606731'
+      position:
+        x: 5168.917876331374
+        y: 1041.9884059184728
+      positionAbsolute:
+        x: 5168.917876331374
+        y: 1041.9884059184728
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        answer: '
+
+          {{#1757055611575.text#}}
+
+
+          ******
+
+
+          <div style="font-family: ''Segoe UI'', Arial, sans-serif; font-size: 14px;
+          color: #4a235a; background-color: #f0e6f5; padding: 10px 15px; border-radius:
+          4px; border-left: 4px solid #7d3c98; margin-top: 15px; box-shadow: 0 2px
+          6px rgba(0,0,0,0.1);">📑 正在总结并生成审核报告</div>
+
+          '
+        desc: ''
+        selected: false
+        title: 直接回复 10
+        type: answer
+        variables: []
+      height: 231
+      id: '1757057684198'
+      position:
+        x: 5474.046915902868
+        y: 1194.088821170018
+      positionAbsolute:
+        x: 5474.046915902868
+        y: 1194.088821170018
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        code: "import re\n\n\ndef main(text):\n    # 匹配所有问题块（从\"合同文件中存在问题的原句摘要\"到下一个同类标题前）\n\
+          \    problem_blocks = re.findall(\n        r\"合同文件中存在问题的原句摘要\\b.*?(?=\\\
+          n\\s*(?:\\*\\*)?合同文件中存在问题的原句摘要\\b|\\Z)\",\n        text,\n        re.DOTALL,\n\
+          \    )\n\n    result_dict = {}\n\n    for block in problem_blocks:\n   \
+          \     # 提取原句摘要（从标题后到问题点前）\n        origin_match = re.search(\n         \
+          \   r\"合同文件中存在问题的原句摘要\\b[^\\n]*(.*?)(?=\\n\\s*(?:\\*\\*)?问题点\\b)\",\n  \
+          \          block,\n            re.DOTALL,\n        )\n\n        # 提取问题点（从标题后到相关法律依据前）\n\
+          \        problem_match = re.search(\n            r\"问题点\\b[^\\n]*(.*?)(?=\\\
+          n\\s*(?:\\*\\*)?相关法律依据\\b)\", block, re.DOTALL\n        )\n        # 提取风险等级\n\
+          \        risk_level = re.search(\n            r\"风险等级\\b[^\\n]*(.*?)(?=\\\
+          n\\s*(?:\\*\\*)?修改建议\\b)\", block, re.DOTALL\n        )\n\n        # 提取修改建议（从标题后到是否有需要补充的条款前）\n\
+          \        suggestion_match = re.search(\n            r\"修改建议\\b[^\\n]*(.*?)(?=\\\
+          n\\s*(?:\\*\\*)?是否有需要补充的条款\\b)\",\n            block,\n            re.DOTALL,\n\
+          \        )\n\n        if origin_match:\n            origin = origin_match.group(1).strip()\n\
+          \            problem = (\n                problem_match.group(1).strip()\
+          \ if problem_match else \"未找到问题点\"\n            )\n            suggestion\
+          \ = (\n                suggestion_match.group(1).strip()\n             \
+          \   if suggestion_match\n                else \"未找到修改建议\"\n            )\n\
+          \            risk = (\n                risk_level.group(1).strip()\n   \
+          \             if risk_level\n                else \"未找到风险等级\"\n        \
+          \    )\n\n            # 拼接问题点和修改建议作为value\n            result_dict[origin]\
+          \ = f\"问题点:\\n{problem}\\n\\n风险等级:\\n{risk}\\n\\n修改建议:\\n{suggestion}\"\n\
+          \n    # 提取全局的补充条款\n    additional_match = re.search(\n        r\"是否有需要补充的条款\\\
+          b[^\\n]*(.*?)(?=\\n\\*\\*\\*合同文件中存在问题的原句摘要\\b|\\Z)\", text, re.DOTALL\n\
+          \    )\n\n    return {\n        \"problems\": result_dict,\n        \"additional_clauses\"\
+          : (\n            additional_match.group(1).strip() if additional_match else\
+          \ \"\"\n        ),\n    }"
+        code_language: python3
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        outputs:
+          additional_clauses:
+            children: null
+            type: string
+          problems:
+            children: null
+            type: object
+        selected: false
+        title: 合同参数提取
+        type: code
+        variables:
+        - value_selector:
+          - '1756867022461'
+          - text
+          value_type: string
+          variable: text
+      height: 52
+      id: '1757058213567'
+      parentId: '1756863291549'
+      position:
+        x: 1860.7344417526579
+        y: 168.46839082619
+      positionAbsolute:
+        x: 3393.8232762983366
+        y: 1272.1084727775979
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+      zIndex: 1002
+    - data:
+        code: "import json\n\ndef main(comment) -> dict:\n    result=json.dumps(comment)\n\
+          \    return {\n        \"result\": result,\n        \"origin\": str(comment)\n\
+          \    }\n"
+        code_language: python3
+        desc: ''
+        outputs:
+          origin:
+            children: null
+            type: string
+          result:
+            children: null
+            type: string
+        selected: false
+        title: 批注json转换
+        type: code
+        variables:
+        - value_selector:
+          - conversation
+          - comment
+          value_type: array[object]
+          variable: comment
+      height: 52
+      id: '1757314599680'
+      position:
+        x: 4886.78987122259
+        y: 1041.9884059184728
+      positionAbsolute:
+        x: 4886.78987122259
+        y: 1041.9884059184728
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        answer: "\n{{#1757492131521.output#}}\n\n{{#1757488857415.files#}}\n\n<div\
+          \ style=\"\n  font-family: 'Segoe UI', Arial, sans-serif;\n  font-size:\
+          \ 16px;\n  color: #856404;\n  background-color: #fff3cd;\n  padding: 12px\
+          \ 16px;\n  border-radius: 6px;\n  border: 1px solid #ffeeba;\n  margin-top:\
+          \ 20px;\n  box-shadow: 0 2px 8px rgba(0,0,0,0.08);\n  line-height: 1.6;\n\
+          \">\n  <div style=\"\n    display: flex;\n    align-items: center;\n   \
+          \ margin-bottom: 8px;\n    font-weight: bold;\n  \">\n    <span style=\"\
+          font-size: 16px; margin-right: 8px;\">⚠️</span>\n    <span>温馨提示：</span>\n\
+            </div>\n  \n  <div style=\"padding-left: 24px;\">\n    <p style=\"margin:\
+          \ 8px 0;\">1. 本审核稿由AI智能分析生成，内容仅供参考</p>\n    <p style=\"margin: 8px 0;\"\
+          >2. AI分析可能存在局限性，无法完全替代人工专业审查</p>\n    <p style=\"margin: 8px 0;\">3. 使用者应结合实际情况和专业判断进行最终决策</p>\n\
+            </div>\n</div>"
+        desc: ''
+        selected: false
+        title: 直接回复 11
+        type: answer
+        variables: []
+      height: 474
+      id: '1757314791861'
+      position:
+        x: 6997.876827539828
+        y: 1607.6229695455934
+      positionAbsolute:
+        x: 6997.876827539828
+        y: 1607.6229695455934
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        desc: ''
+        is_team_authorization: true
+        output_schema: null
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Upload the Word document (.docx) that needs comments to be added
+            ja_JP: Upload the Word document (.docx) that needs comments to be added
+            pt_BR: Upload the Word document (.docx) that needs comments to be added
+            zh_Hans: 上传需要添加批注的Word文档(.docx格式)
+          label:
+            en_US: Word Document
+            ja_JP: Word Document
+            pt_BR: Word Document
+            zh_Hans: Word文档
+          llm_description: ''
+          max: null
+          min: null
+          name: word_content
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: file
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: 'JSON data containing comments mapping. Supports two formats: 1.
+              Array format: [{"summary1": "comment1", "summary2": "comment2"}, {"summary3":
+              "comment3"}] 2. Object format: {"summary1": "comment1", "summary2":
+              "comment2"} (legacy support) Keys are summary text to find in the document,
+              values are corresponding comments to add.
+
+              '
+            ja_JP: 'JSON data containing comments mapping. Supports two formats: 1.
+              Array format: [{"summary1": "comment1", "summary2": "comment2"}, {"summary3":
+              "comment3"}] 2. Object format: {"summary1": "comment1", "summary2":
+              "comment2"} (legacy support) Keys are summary text to find in the document,
+              values are corresponding comments to add.
+
+              '
+            pt_BR: 'JSON data containing comments mapping. Supports two formats: 1.
+              Array format: [{"summary1": "comment1", "summary2": "comment2"}, {"summary3":
+              "comment3"}] 2. Object format: {"summary1": "comment1", "summary2":
+              "comment2"} (legacy support) Keys are summary text to find in the document,
+              values are corresponding comments to add.
+
+              '
+            zh_Hans: '包含批注映射的JSON数据。支持两种格式： 1. 数组格式：[{"摘要1": "批注1", "摘要2": "批注2"},
+              {"摘要3": "批注3"}] 2. 对象格式：{"摘要1": "批注1", "摘要2": "批注2"}（兼容旧格式） 键为文档中要查找的摘要文本，值为要添加的对应批注。
+
+              '
+          label:
+            en_US: Comments JSON
+            ja_JP: Comments JSON
+            pt_BR: Comments JSON
+            zh_Hans: 批注JSON
+          llm_description: ''
+          max: null
+          min: null
+          name: comments_json
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Name of the person adding comments (optional, defaults to "批注者")
+            ja_JP: Name of the person adding comments (optional, defaults to "批注者")
+            pt_BR: Name of the person adding comments (optional, defaults to "批注者")
+            zh_Hans: 添加批注的人员姓名（可选，默认为"批注者"）
+          label:
+            en_US: Comment Author
+            ja_JP: Comment Author
+            pt_BR: Comment Author
+            zh_Hans: 批注者
+          llm_description: ''
+          max: null
+          min: null
+          name: author
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: 'Custom name for the output file (optional).  If not provided,
+              will use original filename with "_commented" suffix. Do not include
+              file extension (.docx will be added automatically).
+
+              '
+            ja_JP: 'Custom name for the output file (optional).  If not provided,
+              will use original filename with "_commented" suffix. Do not include
+              file extension (.docx will be added automatically).
+
+              '
+            pt_BR: 'Custom name for the output file (optional).  If not provided,
+              will use original filename with "_commented" suffix. Do not include
+              file extension (.docx will be added automatically).
+
+              '
+            zh_Hans: '自定义输出文件名（可选）。 如果不提供，将使用原文件名加"_commented"后缀。 无需包含文件扩展名（会自动添加.docx）。
+
+              '
+          label:
+            en_US: Custom Output Filename
+            ja_JP: Custom Output Filename
+            pt_BR: Custom Output Filename
+            zh_Hans: 自定义输出文件名
+          llm_description: ''
+          max: null
+          min: null
+          name: output_filename
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: 'Similarity threshold for fuzzy text matching (0.1-1.0, default:
+              0.8). Higher values require more exact matches, lower values allow more
+              flexible matching. Recommended: 0.8 (80% similarity) for balanced results.
+
+              '
+            ja_JP: 'Similarity threshold for fuzzy text matching (0.1-1.0, default:
+              0.8). Higher values require more exact matches, lower values allow more
+              flexible matching. Recommended: 0.8 (80% similarity) for balanced results.
+
+              '
+            pt_BR: 'Similarity threshold for fuzzy text matching (0.1-1.0, default:
+              0.8). Higher values require more exact matches, lower values allow more
+              flexible matching. Recommended: 0.8 (80% similarity) for balanced results.
+
+              '
+            zh_Hans: '模糊文本匹配的相似度阈值（0.1-1.0，默认：0.8）。 值越高要求匹配越精确，值越低允许更灵活的匹配。 推荐值：0.8（80%相似度），平衡效果较好。
+
+              '
+          label:
+            en_US: Similarity Threshold
+            ja_JP: Similarity Threshold
+            pt_BR: Similarity Threshold
+            zh_Hans: 相似度阈值
+          llm_description: ''
+          max: null
+          min: null
+          name: similarity_threshold
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        params:
+          author: ''
+          comments_json: ''
+          output_filename: ''
+          similarity_threshold: ''
+          word_content: ''
+        provider_id: czfsss/word-tools/word-tools
+        provider_name: czfsss/word-tools/word-tools
+        provider_type: builtin
+        selected: false
+        title: Word文档批注
+        tool_configurations: {}
+        tool_description: 根据JSON键值对向Word文档添加批注，其中键为摘要文本，值为对应的批注内容
+        tool_label: Word文档批注
+        tool_name: word_comment
+        tool_parameters:
+          author:
+            type: mixed
+            value: AI审核
+          comments_json:
+            type: mixed
+            value: '{{#1757314599680.result#}}'
+          output_filename:
+            type: mixed
+            value: '{{#1756874590481.result#}}-批注版'
+          similarity_threshold:
+            type: constant
+            value: 0.6
+          word_content:
+            type: variable
+            value:
+            - sys
+            - files
+        type: tool
+        version: '2'
+      height: 84
+      id: '1757321057716'
+      position:
+        x: 6321.292657326091
+        y: 1587.7475748514291
+      positionAbsolute:
+        x: 6321.292657326091
+        y: 1587.7475748514291
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        answer: '
+
+          <div style="font-family: ''Segoe UI'', Arial, sans-serif; font-size: 14px;
+          color: #0c5460; background-color: #d1ecf1; padding: 8px 12px; border-radius:
+          4px; border-left: 4px solid #0aa2c0; margin-top: 12px; box-shadow: 0 2px
+          4px rgba(0,0,0,0.1);">🔍 正在分析段落...</div>
+
+          '
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        selected: false
+        title: 直接回复 11
+        type: answer
+        variables: []
+      height: 212
+      id: '1757321352735'
+      parentId: '1756863291549'
+      position:
+        x: 142.8506472712695
+        y: 149.44850628946506
+      positionAbsolute:
+        x: 1675.9394818169483
+        y: 1253.088588240873
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+      zIndex: 1002
+    - data:
+        code: "def main(data1,data2) -> dict:\n    contents = []\n    # 遍历结果并提取每个对象的\
+          \ content 字段\n    for item in data1:\n      contents.append('引用的知识文件名称：'+item['title'])\n\
+          \      contents.append('内容：'+item['content'])\n    \n    for item in data2:\n\
+          \      contents.append('引用的知识文件名称：'+item['title'])\n      contents.append('内容：'+item['content'])\n\
+          \n    # 将所有内容拼接成一个字符串\n    contentss = \"\\n\".join(contents)\n\n    return\
+          \ {\n        \"result\": contentss\n    }"
+        code_language: python3
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756863291549'
+        outputs:
+          result:
+            children: null
+            type: string
+        selected: false
+        title: 知识检索合并
+        type: code
+        variables:
+        - value_selector:
+          - '1756867001280'
+          - result
+          value_type: array[object]
+          variable: data1
+        - value_selector:
+          - '1756868122388'
+          - result
+          value_type: array[object]
+          variable: data2
+      height: 52
+      id: '1757333178904'
+      parentId: '1756863291549'
+      position:
+        x: 1306.0852125455563
+        y: 168.28830641477884
+      positionAbsolute:
+        x: 2839.174047091235
+        y: 1271.9283883661867
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+      zIndex: 1002
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1757314599680'
+          - origin
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.2
+          mode: chat
+          name: Qwen3-30B-A3B-Instruct-2507
+          provider: yangyaofei/vllm/vllm
+        prompt_template:
+        - id: 1912f31c-6f62-42c3-83df-62a7480b1684
+          role: system
+          text: "【身份】\n你是一个专业的文件审核总结助手。请基于以下两部分内容，生成一份结构清晰、重点突出、语言精炼的综合审核总结报告：\n\n\
+            1. **各段落审核结果(即各段落的批注)**：包含对文档中各段落内容的逐项审核意见；\n2. **整体结构审核结果**：包含对文档整体结构的评估。\n\
+            \n【输出格式】\n1、**综合审核结论**  \n用1–2句话概括文档整体质量，评估整体结构合理性（优/良/中/差），判断文件是否需重大/轻微修改，并简要说明理由。\n\
+            2、 **统计需修改数量**  \n- 先统计出文件的批注数量(即各段落的审核结果，需要修改的地方)，再分别按风险等级统计各等级的审核结果数量；\n\
+            - 按优先级列出最关键的3–5个问题（可合并段落与结构问题），每个问题后附修改建议（尽量精简，后续有详细的审核结果）。  \n\n【要求】\n\
+            1、请确保语言专业、客观、简洁，避免模糊表述。总结应帮助用户快速理解文档质量并指导后续修改。\n2、总结需要简短一点，无需太多。\n【提示】\n\
+            1、这是文件整体结构的审核结果：{{#1757055611575.text#}}；\n2、这是各段落审核的结果(即word中的批注)：{{#context#}}"
+        selected: false
+        title: 总结智能体
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 88
+      id: '1757486892616'
+      position:
+        x: 5814.802035943794
+        y: 1194.088821170018
+      positionAbsolute:
+        x: 5814.802035943794
+        y: 1194.088821170018
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        desc: ''
+        is_team_authorization: true
+        output_schema: null
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Upload the Word document (.docx) where you want to insert text
+            ja_JP: Upload the Word document (.docx) where you want to insert text
+            pt_BR: Upload the Word document (.docx) where you want to insert text
+            zh_Hans: 上传要插入文本的Word文档(.docx格式)
+          label:
+            en_US: Word Document
+            ja_JP: Word Document
+            pt_BR: Word Document
+            zh_Hans: Word文档
+          llm_description: ''
+          max: null
+          min: null
+          name: word_content
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: file
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: The text content that you want to insert into the Word document
+            ja_JP: The text content that you want to insert into the Word document
+            pt_BR: The text content that you want to insert into the Word document
+            zh_Hans: 要插入到Word文档中的文本内容
+          label:
+            en_US: Text to Insert
+            ja_JP: Text to Insert
+            pt_BR: Text to Insert
+            zh_Hans: 要插入的文本
+          llm_description: ''
+          max: null
+          min: null
+          name: text_to_insert
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: end
+          form: llm
+          human_description:
+            en_US: Choose where to insert the text： at the beginning (start) or at
+              the end (end) of the document
+            ja_JP: Choose where to insert the text： at the beginning (start) or at
+              the end (end) of the document
+            pt_BR: Choose where to insert the text： at the beginning (start) or at
+              the end (end) of the document
+            zh_Hans: 选择文本插入位置：文档开头(start)或文档结尾(end)
+          label:
+            en_US: Insert Position
+            ja_JP: Insert Position
+            pt_BR: Insert Position
+            zh_Hans: 插入位置
+          llm_description: ''
+          max: null
+          min: null
+          name: insert_position
+          options:
+          - icon: ''
+            label:
+              en_US: Start
+              ja_JP: Start
+              pt_BR: Start
+              zh_Hans: 开头
+            value: start
+          - icon: ''
+            label:
+              en_US: End
+              ja_JP: End
+              pt_BR: End
+              zh_Hans: 结尾
+            value: end
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: select
+        - auto_generate: null
+          default: 宋体
+          form: llm
+          human_description:
+            en_US: Name of the font to use for the inserted text (e.g., 宋体, Arial,
+              Times New Roman)
+            ja_JP: Name of the font to use for the inserted text (e.g., 宋体, Arial,
+              Times New Roman)
+            pt_BR: Name of the font to use for the inserted text (e.g., 宋体, Arial,
+              Times New Roman)
+            zh_Hans: 插入文本所使用的字体名称（例如：宋体、Arial、Times New Roman）
+          label:
+            en_US: Font Name
+            ja_JP: Font Name
+            pt_BR: Font Name
+            zh_Hans: 字体名称
+          llm_description: ''
+          max: null
+          min: null
+          name: font_name
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: 12
+          form: llm
+          human_description:
+            en_US: Size of the font in points (e.g., 12, 14, 16)
+            ja_JP: Size of the font in points (e.g., 12, 14, 16)
+            pt_BR: Size of the font in points (e.g., 12, 14, 16)
+            zh_Hans: 字体大小，以磅为单位（例如：12、14、16）
+          label:
+            en_US: Font Size
+            ja_JP: Font Size
+            pt_BR: Font Size
+            zh_Hans: 字体大小
+          llm_description: ''
+          max: null
+          min: null
+          name: font_size
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: number
+        - auto_generate: null
+          default: 黑色
+          form: llm
+          human_description:
+            en_US: Choose a color for the font from common color options
+            ja_JP: Choose a color for the font from common color options
+            pt_BR: Choose a color for the font from common color options
+            zh_Hans: 从常见颜色选项中选择字体颜色
+          label:
+            en_US: Font Color
+            ja_JP: Font Color
+            pt_BR: Font Color
+            zh_Hans: 字体颜色
+          llm_description: ''
+          max: null
+          min: null
+          name: font_color
+          options:
+          - icon: ''
+            label:
+              en_US: Black
+              ja_JP: Black
+              pt_BR: Black
+              zh_Hans: 黑色
+            value: 黑色
+          - icon: ''
+            label:
+              en_US: White
+              ja_JP: White
+              pt_BR: White
+              zh_Hans: 白色
+            value: 白色
+          - icon: ''
+            label:
+              en_US: Red
+              ja_JP: Red
+              pt_BR: Red
+              zh_Hans: 红色
+            value: 红色
+          - icon: ''
+            label:
+              en_US: Green
+              ja_JP: Green
+              pt_BR: Green
+              zh_Hans: 绿色
+            value: 绿色
+          - icon: ''
+            label:
+              en_US: Blue
+              ja_JP: Blue
+              pt_BR: Blue
+              zh_Hans: 蓝色
+            value: 蓝色
+          - icon: ''
+            label:
+              en_US: Yellow
+              ja_JP: Yellow
+              pt_BR: Yellow
+              zh_Hans: 黄色
+            value: 黄色
+          - icon: ''
+            label:
+              en_US: Purple
+              ja_JP: Purple
+              pt_BR: Purple
+              zh_Hans: 紫色
+            value: 紫色
+          - icon: ''
+            label:
+              en_US: Orange
+              ja_JP: Orange
+              pt_BR: Orange
+              zh_Hans: 橙色
+            value: 橙色
+          - icon: ''
+            label:
+              en_US: Pink
+              ja_JP: Pink
+              pt_BR: Pink
+              zh_Hans: 粉色
+            value: 粉色
+          - icon: ''
+            label:
+              en_US: Brown
+              ja_JP: Brown
+              pt_BR: Brown
+              zh_Hans: 棕色
+            value: 棕色
+          - icon: ''
+            label:
+              en_US: Gray
+              ja_JP: Gray
+              pt_BR: Gray
+              zh_Hans: 灰色
+            value: 灰色
+          - icon: ''
+            label:
+              en_US: Dark Blue
+              ja_JP: Dark Blue
+              pt_BR: Dark Blue
+              zh_Hans: 深蓝色
+            value: 深蓝色
+          - icon: ''
+            label:
+              en_US: Dark Green
+              ja_JP: Dark Green
+              pt_BR: Dark Green
+              zh_Hans: 深绿色
+            value: 深绿色
+          - icon: ''
+            label:
+              en_US: Dark Red
+              ja_JP: Dark Red
+              pt_BR: Dark Red
+              zh_Hans: 深红色
+            value: 深红色
+          - icon: ''
+            label:
+              en_US: Cyan
+              ja_JP: Cyan
+              pt_BR: Cyan
+              zh_Hans: 青色
+            value: 青色
+          - icon: ''
+            label:
+              en_US: Gold
+              ja_JP: Gold
+              pt_BR: Gold
+              zh_Hans: 金色
+            value: 金色
+          - icon: ''
+            label:
+              en_US: Silver
+              ja_JP: Silver
+              pt_BR: Silver
+              zh_Hans: 银色
+            value: 银色
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: select
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Custom name for the output file (optional). Do not include file
+              extension (.docx will be added automatically).
+            ja_JP: Custom name for the output file (optional). Do not include file
+              extension (.docx will be added automatically).
+            pt_BR: Custom name for the output file (optional). Do not include file
+              extension (.docx will be added automatically).
+            zh_Hans: 自定义输出文件名（可选），无需包含文件扩展名（会自动添加.docx）。
+          label:
+            en_US: Custom Output Filename
+            ja_JP: Custom Output Filename
+            pt_BR: Custom Output Filename
+            zh_Hans: 自定义输出文件名
+          llm_description: ''
+          max: null
+          min: null
+          name: output_filename
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: 0
+          form: llm
+          human_description:
+            en_US: Whether the text to insert is in Markdown format. If true, the
+              text will be converted to Word format with proper formatting.
+            ja_JP: Whether the text to insert is in Markdown format. If true, the
+              text will be converted to Word format with proper formatting.
+            pt_BR: Whether the text to insert is in Markdown format. If true, the
+              text will be converted to Word format with proper formatting.
+            zh_Hans: 要插入的文本是否为Markdown格式。如果为true，文本将被转换为具有适当格式的Word格式。
+          label:
+            en_US: Is Markdown Text
+            ja_JP: Is Markdown Text
+            pt_BR: Is Markdown Text
+            zh_Hans: 是否为Markdown文本
+          llm_description: ''
+          max: null
+          min: null
+          name: is_markdown
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: boolean
+        params:
+          font_color: ''
+          font_name: ''
+          font_size: ''
+          insert_position: ''
+          is_markdown: ''
+          output_filename: ''
+          text_to_insert: ''
+          word_content: ''
+        provider_id: czfsss/word-tools/word-tools
+        provider_name: czfsss/word-tools/word-tools
+        provider_type: builtin
+        selected: false
+        title: Word文档文本插入
+        tool_configurations: {}
+        tool_description: 在Word文档的开头或结尾插入自定义文本，并可以自定义字体样式、颜色和大小
+        tool_label: Word文档文本插入
+        tool_name: word_insert_text
+        tool_parameters:
+          font_color:
+            type: constant
+            value: 红色
+          font_name:
+            type: mixed
+            value: 宋体
+          font_size:
+            type: constant
+            value: 10
+          insert_position:
+            type: constant
+            value: start
+          is_markdown:
+            type: constant
+            value: true
+          output_filename:
+            type: mixed
+            value: '{{#1756874590481.result#}}-批注版'
+          text_to_insert:
+            type: mixed
+            value: '{{#1757486892616.text#}}'
+          word_content:
+            type: variable
+            value:
+            - '1757321057716'
+            - files
+        type: tool
+        version: '2'
+      height: 84
+      id: '1757488857415'
+      position:
+        x: 6405.220654711897
+        y: 1717.3123405209049
+      positionAbsolute:
+        x: 6405.220654711897
+        y: 1717.3123405209049
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        answer: '
+
+          {{#1757486892616.text#}}'
+        desc: ''
+        selected: false
+        title: 直接回复 12
+        type: answer
+        variables: []
+      height: 103
+      id: '1757489560503'
+      position:
+        x: 5821.99146497963
+        y: 1348.3347311878017
+      positionAbsolute:
+        x: 5821.99146497963
+        y: 1348.3347311878017
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        desc: ''
+        selected: false
+        template: '<div style="font-family: ''Segoe UI'', Arial, sans-serif; font-size:
+          15px; color: #155724; background-color: #d4edda; padding: 10px 15px; border-radius:
+          4px; border-left: 4px solid #28a745; margin-top: 15px; box-shadow: 0 2px
+          6px rgba(0,0,0,0.1); font-weight: bold;">✅📄 生成完毕，批注版如下</div>'
+        title: 模板转换 7
+        type: template-transform
+        variables: []
+      height: 52
+      id: '1757492131521'
+      position:
+        x: 6706.582333172789
+        y: 1717.3123405209049
+      positionAbsolute:
+        x: 6706.582333172789
+        y: 1717.3123405209049
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        author: 程子凡
+        desc: ''
+        height: 88
+        selected: false
+        showAuthor: false
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"在这里提取文件名，用于传入后续插件的自定义文件名称","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: ''
+        type: ''
+        width: 240
+      height: 88
+      id: '1757555765685'
+      position:
+        x: 725.8988622369388
+        y: 342.5918631477154
+      positionAbsolute:
+        x: 725.8988622369388
+        y: 342.5918631477154
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 240
+    - data:
+        author: 程子凡
+        desc: ''
+        height: 88
+        selected: false
+        showAuthor: false
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"提取分块的结果并转成array[object]类型","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: ''
+        type: ''
+        width: 240
+      height: 88
+      id: '1757555839164'
+      position:
+        x: 2559.992892741553
+        y: 655.647726675487
+      positionAbsolute:
+        x: 2559.992892741553
+        y: 655.647726675487
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 240
+    viewport:
+      x: -3631.5993901549273
+      y: -736.5664228123746
+      zoom: 0.659753956944025
