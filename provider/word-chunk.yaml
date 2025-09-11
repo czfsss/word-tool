@@ -7,7 +7,7 @@ identity:
     # pt_BR: "word-chunk"
   description:
     en_US: "A tool for chunking word documents into meaningful text blocks"
-    zh_Hans: "word文档操作工具，可以实现word文档的分段、pdf转word操作以及word文档批注功能"
+    zh_Hans: "word文档操作工具，可以实现word文档的分段、pdf转word操作、word文档批注功能以及word文本插入功能"
     pt_BR: "Ferramenta para segmentar documentos Word em blocos de texto significativos"
   icon: "icon_new.svg"
   tags:
